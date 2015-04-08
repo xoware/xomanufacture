@@ -1,0 +1,23 @@
+﻿<Window x:Class="xomanufacture.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:xomanufacture"
+
+        Title="MainWindow" Height="350" Width="525" Topmost="True" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+
+
+
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type local:StartBenchViewModel}">
+            <local:StartBench />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type local:WorkBenchViewModel}">
+            <local:WorkBench />
+        </DataTemplate>
+    </Window.Resources>
+
+
+
+    <ContentControl Content="{Binding CurrentPageViewModel}" />
+
+</Window>
