@@ -17,6 +17,14 @@ using System.Runtime.InteropServices;
 using BRCLI;
 using System.Reflection;
 using System.Net.NetworkInformation;
+using System.Security.Principal;
+using System.IO;
+using System.Net.NetworkInformation;
+using System.Net.Sockets;
+using NETWORKLIST;
+using NetFwTypeLib;
+using NETCONLib;
+using System.Reflection;
 
 
 
@@ -50,6 +58,10 @@ namespace xomanufacture
         private static void SetEndDate()
         {
             AModel.EndTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
+        }
+        public String GetRunDate()
+        {
+            return AModel.TodaysDate;
         }
 
         public AController(App _thisapp, MainWindow _appwindow)
@@ -106,28 +118,177 @@ namespace xomanufacture
             
         }
 
-
-        public bool DoStartupChecks()
+        public bool IsUserAdministrator()
         {
-            bool reply = false;
-            //TODO
+            bool isAdmin;
+            try
+            {
+                WindowsIdentity user = WindowsIdentity.GetCurrent();
+                WindowsPrincipal principal = new WindowsPrincipal(user);
+                isAdmin = principal.IsInRole(WindowsBuiltInRole.Administrator);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                isAdmin = false;
+            }
+            catch (Exception ex)
+            {
+                isAdmin = false;
+            }
+            return isAdmin;
+        }
+        public ConsoleToken DoStartupChecks()
+        {
+            ConsoleToken Reply = new ConsoleToken();
+            Reply.Status = IsUserAdministrator();
+            if (Reply.Status == false)
+            {
+                Reply.Message = "This Application Needs to be run as Administrator.";
+                return Reply;
+            }
             //put all the startup stuff here
             //read the configuration file for ethernet address guids and mac pool
             //load the pool list into TheModel and the adapters into the Acontroller objects respectively
-            reply = TheModel.bootup();
-            if (reply == false)
+            Reply.Status = TheModel.bootup();
+            if (Reply.Status == false)
             {
                 //this is a new installation. or lost conf file. user intervention required.
+                Reply.Message = "this is a new installation. or lost conf file. user intervention required.";
+                return Reply;
             }
-            //make the  operator test the scanner and the printer.
             //firewall(windows ICS on the main(the internet) ethernet port)
             //also check to make sure that there are 2 adapters up?
             //also make sure that the windows firewall is turned off for the 2 ethernet ports
+            Reply.Status = PrepNetworks();
+            if (Reply.Status == false)
+            {
+                Reply.Message = "Could Not prep the networks.";
+                return Reply;
+            }
+
             //check to make sure winpcap is installed if that can be done.
-            // check pscp(putty) executable is in this directory also.
+            if (!File.Exists(@"C:\Program Files\WinPcap\install.log"))
+            {
+                Reply.Status = false;
+                Reply.Message = "WinPCAP installation not found. Please make sure its installed in default location. Also that it startsup automatically at bootup.";
+                return Reply;
+            }
+            // check pscp(putty) executable is in this directory also. // I could add it as a resource file.
+            if (!File.Exists(TheModel.PathName + @"\pscp.exe"))
+            {
+                Reply.Status = false;
+                Reply.Message = "Missing pscp.exe in the Application Dir";
+                return Reply;
+            }
             // If the reply of this function is false then print the reason in a textarea in the app.
 
-            return reply;
+            Reply.Message = " Start Checks Successful.  ";
+            Reply.Status = true;
+            return Reply;
+        }
+        private bool PrepNetworks()
+        {
+            bool reply1 = false;
+            bool reply2 = false;
+            bool reply = false;
+            var someException = new System.Exception();
+            String SharedAdap = "";
+
+            foreach (var nic in IcsManager.GetIPv4EthernetAndWirelessInterfaces())
+            {
+                if (nic.Id == AModel.Adapter1 || nic.Id == AModel.Adapter2)
+                {
+                    if (nic.OperationalStatus == OperationalStatus.Up)
+                    {
+                        if (nic.Id == AModel.Adapter1)
+                            reply1 = true;
+                        if (nic.Id == AModel.Adapter2)
+                            reply2 = true;
+
+                        try
+                        {
+                            String netResp = IdToNetworkPrivatise(nic.Id);
+                            if (netResp == "No Network")
+                                throw someException;
+                        }
+                        catch
+                        {
+                            if (reply1)
+                                reply1 = false;
+                            if (reply2)
+                                reply2 = false;
+                        }
+                    }
+                    else
+                    {
+                        // this adapter is down????
+                    }
+                }
+                else
+                {
+                    //found Shared/Internet network
+                    SharedAdap = nic.Id;
+                }
+            }
+            if (reply1 && reply2 && SharedAdap != "")
+                EnableICS(SharedAdap, AModel.Adapter1, true);
+            return reply1 && reply2;
+        }
+        public static String IdToNetworkPrivatise(String AdapID)
+        {
+            var NLM = new NetworkListManager();
+            var NetList = NLM.GetNetworkConnections();
+            String ReturnMesg = " ";
+            foreach (INetworkConnection NetIter in NetList)
+            {
+                if (NetIter.GetAdapterId().ToString().ToUpper() == AdapID.Trim().TrimEnd('}').TrimStart('{'))
+                {
+                    ReturnMesg = NetIter.GetNetwork().GetName().ToString();
+                    ReturnMesg += " : ";
+                    ReturnMesg += NetIter.GetNetwork().GetCategory().ToString();
+                    // set network private
+                    NetIter.GetNetwork().SetCategory(NLM_NETWORK_CATEGORY.NLM_NETWORK_CATEGORY_PRIVATE);
+                    // authorize this app to fw;   fallback measure
+                    FirewallHelper.Instance.GrantAuthorization(Assembly.GetExecutingAssembly().Location,
+                        "xomanufacture", NET_FW_SCOPE_.NET_FW_SCOPE_ALL, NET_FW_IP_VERSION_.NET_FW_IP_VERSION_ANY);
+                    // disable the fw in private profiles
+                    FirewallHelper.Instance.SetFirewallStatus(false);
+                    //Console.WriteLine(FirewallHelper.Instance.HasAuthorization(Assembly.GetExecutingAssembly().Location).ToString());
+                }
+            }
+            ReturnMesg = "No Network";
+            return ReturnMesg;
+        }
+        //shared and home are in the format : nic.id
+        static void EnableICS(string shared, string home, bool force)
+        {
+            var connectionToShare = IcsManager.FindConnectionByIdOrName(shared);
+            if (connectionToShare == null)
+            {
+                Console.WriteLine("Connection not found: {0}", shared);
+                return;
+            }
+            var homeConnection = IcsManager.FindConnectionByIdOrName(home);
+            if (homeConnection == null)
+            {
+                Console.WriteLine("Connection not found: {0}", home);
+                return;
+            }
+
+            var currentShare = IcsManager.GetCurrentlySharedConnections();
+            if (currentShare.Exists)
+            {
+                Console.WriteLine("Internet Connection Sharing is already enabled:");
+                Console.WriteLine(currentShare);
+                if (!force)
+                {
+                    Console.WriteLine("Please disable it if you want to configure sharing for other connections");
+                    return;
+                }
+                Console.WriteLine("Sharing will be disabled first.");
+            }
+
+            IcsManager.ShareConnection(connectionToShare, homeConnection);
         }
 
 
@@ -193,6 +354,7 @@ namespace xomanufacture
             // ping responses only from 2nd interface and the mac it came from.
             String Intf1BPF = "udp and dst 169.254.254.254 and (dst port 69 or dst port 36969)";
             String Intf2BPF = "icmp and src 192.168.2.1 and destination 192.168.2.254";
+            //libpcap object device.name is contains our adapter1 guid.
             libpcapObj FirIntfProc = new libpcapObj(AModel.Adapter1, Intf1Handler, Intf1BPF);
             libpcapObj SecIntfProc = new libpcapObj(AModel.Adapter2, Intf2Handler, Intf2BPF);
             Thread Intf1Thread = new Thread(new ThreadStart(FirIntfProc.StartCapture));

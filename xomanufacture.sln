@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xomanufacture", "xomanufact
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mnotftp", "mnotftp\mnotftp.vcxproj", "{07145563-C4DD-49B3-8D62-E1D7CF587B2A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zen.Barcode", "Zen.Barcode\Zen.Barcode.csproj", "{3E78E65E-36C4-486E-A8D5-74F9DBADFAF6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,16 @@ Global
 		{07145563-C4DD-49B3-8D62-E1D7CF587B2A}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{07145563-C4DD-49B3-8D62-E1D7CF587B2A}.Release|Win32.ActiveCfg = Release|Win32
 		{07145563-C4DD-49B3-8D62-E1D7CF587B2A}.Release|Win32.Build.0 = Release|Win32
+		{3E78E65E-36C4-486E-A8D5-74F9DBADFAF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E78E65E-36C4-486E-A8D5-74F9DBADFAF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E78E65E-36C4-486E-A8D5-74F9DBADFAF6}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3E78E65E-36C4-486E-A8D5-74F9DBADFAF6}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3E78E65E-36C4-486E-A8D5-74F9DBADFAF6}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{3E78E65E-36C4-486E-A8D5-74F9DBADFAF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E78E65E-36C4-486E-A8D5-74F9DBADFAF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E78E65E-36C4-486E-A8D5-74F9DBADFAF6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3E78E65E-36C4-486E-A8D5-74F9DBADFAF6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3E78E65E-36C4-486E-A8D5-74F9DBADFAF6}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

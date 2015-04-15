@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using System.Windows.Input;
 
 
 namespace xomanufacture
@@ -22,27 +23,52 @@ namespace xomanufacture
             Name = "StartBench";
             BCScanObject = new BarCodeScanner();
 
-            EnableStart();
         }
         public BarCodeScanner BCScanObject;
+        public String TestIOToken;
 
-
-        private void EnableStart()
+        public void StartPageSignal()
         {
-            if (TheController.DoStartupChecks())
+            var response = TheController.DoStartupChecks();
+            if (response.Status)
             {
                 if (EnableEnterEvent != null)
                 {
-                    EnableEnterEvent("EnableEnter", new PropertyChangedEventArgs("nothing here"));
+                    EnableEnterEvent("TestPrinter", new PropertyChangedEventArgs("Click  [Test Printer] to continue"));
                 }
             }
             else
             {
                 if (EnableEnterEvent != null)
                 {
-                    EnableEnterEvent("EnableExit", new PropertyChangedEventArgs("nothing here"));
+                    EnableEnterEvent("EnableExit", new PropertyChangedEventArgs(response.Message));
                 }
             }
+        }
+
+
+        public ICommand TestPrintCommand
+        {
+            get
+            {
+                return new RelayCommand(ClickedPrintAction);
+            }
+        }
+
+        private void ClickedPrintAction(object _parameter)
+        {
+            // do the printing and then: Save the token
+            TestIOToken = TheController.GetRunDate();
+            LabelPrinter.PrintLabel(TestIOToken, TestIOToken);
+            BCScanObject.FireEnableEvent(PostScanHook);
+        }
+        public void PostScanHook(String ScanValue)
+        {
+            //check the token.
+            if (ScanValue == TestIOToken)
+                EnableEnterEvent("EnableEnter", new PropertyChangedEventArgs("Click  [Start Station] to Continue"));
+            else
+                EnableEnterEvent("EnableExit", new PropertyChangedEventArgs("Try Again OR Exit"));
         }
 
     }

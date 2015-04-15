@@ -25,6 +25,9 @@ namespace xomanufacture
 
         private StartBenchViewModel MyViewModel;
         private bool InitOnceDone = false;
+
+        private KeyEventHandler ScanPKDDelegate;
+        private KeyEventHandler ScanPKUDelegate;
         
         public StartBench()
         {
@@ -38,8 +41,14 @@ namespace xomanufacture
             {
                 InitOnceDone = true;
                 MyViewModel = this.DataContext as StartBenchViewModel;
+
                 MyViewModel.ResetEventHandlerChain();
                 MyViewModel.EnableEnterEvent += new PropertyChangedEventHandler(EnterAction);
+
+                MyViewModel.BCScanObject.ResetEventHandlerChain();
+                MyViewModel.BCScanObject.ScanActionEvent += new PropertyChangedEventHandler(Scan_Action);
+                ScanPKDDelegate = new KeyEventHandler(MyViewModel.BCScanObject.Scan_PreviewKeyDown);
+                ScanPKUDelegate = new KeyEventHandler(MyViewModel.BCScanObject.Scan_PreviewKeyUp);
             }
         }
 
@@ -58,6 +67,34 @@ namespace xomanufacture
                 StartButton.Content = "Exit Station";
                 StartButton.CommandParameter = "Exit";
             }
+            if (MyCommand == "TestPrinter")
+            {
+                TestPrint.IsEnabled = true;
+            }
+            ConsoleLabel.Content = e.PropertyName;
         }
+
+        private void Scan_Start(object sender, RoutedEventArgs e)
+        {
+            this.PreviewKeyDown += ScanPKDDelegate;
+            this.PreviewKeyUp += ScanPKUDelegate;
+            TestScan.Background = Brushes.Red;
+        }
+        private void Scan_Action(object sender, PropertyChangedEventArgs e)
+        {
+            var ScanCom = sender as String;
+            if (ScanCom == "StopScan")
+            {
+                this.PreviewKeyDown -= ScanPKDDelegate;
+                this.PreviewKeyUp -= ScanPKUDelegate;
+                TestScan.Background = Brushes.LightGray;
+                TestScan.IsEnabled = false;
+            }
+            if (ScanCom == "EnableScan")
+            {
+                TestScan.IsEnabled = true;
+            }
+        }
+
     }
 }

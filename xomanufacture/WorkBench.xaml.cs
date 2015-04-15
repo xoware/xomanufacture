@@ -65,13 +65,14 @@ namespace xomanufacture
             {
                 InitOnceDone = true;
                 MyViewModel = this.DataContext as WorkBenchViewModel;
+
                 MyViewModel.BCScanObject.ResetEventHandlerChain();
                 MyViewModel.BCScanObject.ScanActionEvent += new PropertyChangedEventHandler(Scan_Action);
                 ScanPKDDelegate = new KeyEventHandler(MyViewModel.BCScanObject.Scan_PreviewKeyDown);
                 ScanPKUDelegate = new KeyEventHandler(MyViewModel.BCScanObject.Scan_PreviewKeyUp);
+
                 MyViewModel.ResetEventHandlerChain();
                 MyViewModel.UpdateUIEvent += new PropertyChangedEventHandler(ReflectChanges);
-
             }
         }
 
@@ -108,8 +109,8 @@ namespace xomanufacture
             {
                 ScanButton.IsEnabled = true;
             }
-
         }
+
         private void ReflectChanges(object sender, PropertyChangedEventArgs e)
         {
             //Routine update the property elements

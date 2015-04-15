@@ -19,6 +19,11 @@ using System.Windows.Input;
 using System.ComponentModel;
 using System.IO.Compression;
 using System.Diagnostics;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Globalization;
+using System.Windows;
+using Zen.Barcode;
 
 
 namespace xomanufacture
@@ -261,8 +266,8 @@ namespace xomanufacture
             }
             else
             {
-                File.AppendAllText(coname, "ADAPTER1#marker values replace with correct in each line");
-                File.AppendAllText(coname, "ADAPTER2#marker values replace with correct in each line");
+                File.AppendAllText(coname, "ADAPTER1#marker values replace with correct :GUID eg:{BBD7D6C7-4475-44B7...}");
+                File.AppendAllText(coname, "ADAPTER2#marker values replace with correct :GUID eg:{BBD7D6C7-4475-44B7...}");
                 File.AppendAllText(coname, @"MACPOOL1=Start#00:11:22:33:44:55|End#00:11:22:33:44:99|Next#00:11:22:33:44:55");
                 File.AppendAllText(coname, @"MACPOOL1=Start#00:11:22:33:44:55|End#00:11:22:33:44:99|Next#00:11:22:33:44:55");
             }
@@ -1052,7 +1057,7 @@ namespace xomanufacture
             for (int i = 0; i != allDevices.Count; ++i)
             {
                 LivePacketDevice device = allDevices[i];
-                if (device.Name == _adapter)
+                if (device.Name.Contains(_adapter))
                 {
                     Adapter = i;
                 }
@@ -1273,10 +1278,71 @@ namespace xomanufacture
 
     class LabelPrinter
     {
-        //TODO
-        //refactor to here
+        public static void PrintLabel(String mac_addr, String sr_no)
+        {
+            PrintDialog printDlg = new PrintDialog();
 
+            /* TODO: _complete_for_more_precision
+            var printer = new PrintServer().GetPrintQueues().ToList().FirstOrDefault(x => x.FullName.Contains("XPS"));
+            if (printer == null)
+            {
+                MessageBox.Show("No XPS printer found");
+                return;
+            }
+            printDialog.PrintQueue = printer;
+            printDialog.PrintTicket.PageOrientation = PageOrientation.Portrait;
+            printDialog.PrintTicket.PageMediaSize = new PageMediaSize(PageMediaSizeName.NorthAmericaLetter);
+            printDialog.PrintTicket.PageBorderless = PageBorderless.Borderless;
+            */
 
+            DrawingVisual visual = new DrawingVisual();
+            using (LabelContext = visual.RenderOpen())
+            {
+
+                TypeSetLine("x.o.ware, inc.   ExoNet", "Tahoma", 14, 30, 10);
+                TypeSetLine("TM", "Tahoma", 6, 170, 10);
+                TypeSetLine("101-5-1.0", "Tahoma", 6, 90, 25);
+                TypeSetLine("Designed & Assembled in California", "Tahoma", 11, 20, 40);
+                TypeSetLine("Default Username: admin", "Tahoma", 8, 60, 60);
+                TypeSetLine("Default Password: 123456", "Tahoma", 8, 60, 70);
+                TypeSetLine("Default IP Address on eth2: 192.168.2.1", "Tahoma", 8, 35, 80);
+                TypeSetLine("Default URL on eth1: http://exonet.local", "Tahoma", 8, 35, 90);
+                //typeset barcode
+                TypeSetLine("MAC ADR: " + mac_addr, "Consolas", 9, 20, 140);
+                //typeset barcode
+                TypeSetLine("S/N: " + sr_no, "Consolas", 8, 20, 180);
+
+                var MacBarRect = new Rect(20, 105, 160, 30);
+                BarcodeDraw.Draw(LabelContext, mac_addr, new BarcodeMetrics1d(1, 2, 30), MacBarRect);
+
+                var SrNoRect = new Rect(20, 155, 160, 25);
+                BarcodeDraw.Draw(LabelContext, sr_no, new BarcodeMetrics1d(1, 2, 30), SrNoRect);
+
+            }
+            printDlg.PrintVisual(visual, "LABEL");
+        }
+
+        private static readonly BarcodeDraw BarcodeDraw = BarcodeDrawFactory.Code128WithChecksum;
+        private static DrawingContext LabelContext;
+        private static void TypeSetLine(String Data, String TFace, int TFSize, int XOffset, int YOffset)
+        {
+            //TypeSet the lines
+            FormattedText formattedText = new FormattedText(Data, CultureInfo.GetCultureInfo("en-us"),
+                                                            FlowDirection.LeftToRight, new Typeface(TFace), TFSize, Brushes.Black);
+            LabelContext.DrawText(formattedText, new Point(XOffset, YOffset));
+        }
+
+    }
+
+    class ConsoleToken
+    {
+        public bool Status;
+        public String Message;
+        public ConsoleToken()
+        {
+            Status = false;
+            Message = " ";
+        }
     }
  
 }

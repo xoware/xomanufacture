@@ -43,6 +43,7 @@ namespace xomanufacture
             this.UpdateUIEvent = null;
         }
         public String LabelBox;
+        public String LastLabel;
 
        public ICommand ResetCommand
        {
@@ -81,7 +82,7 @@ namespace xomanufacture
 
        public void PostScanHook(String ScanValue)
        {
-
+           char[] delim = {'|'};
            // NOTE: the main thread will 
            // after scanning
            // Update the barcode in the ExoNetUT object
@@ -89,9 +90,12 @@ namespace xomanufacture
            // UIUPDATE will happen automaticcally.
            //but could call it here aswell
            // update the status and commitPersist(rundone.txt) of this EN to file
-           String LabelData = TheController.GetLabel(TopIndex);
-           //TODO
+           LastLabel = TheController.GetLabel(TopIndex).Trim(delim);
            // print label at the end of commiting 
+           LabelPrinter.PrintLabel(
+               LastLabel.Split(delim, StringSplitOptions.RemoveEmptyEntries)[0], 
+               LastLabel.Split(delim, StringSplitOptions.RemoveEmptyEntries)[1]
+               );
        }
 
        public ICommand PauseCommand
@@ -103,9 +107,13 @@ namespace xomanufacture
        }
        private void PauseAReprint(object Parameter)
        {
-           //TODO
            //reprint last label here
            //get information about TopIndex and reprint the label
+           char[] delim = { '|' };
+           LabelPrinter.PrintLabel(
+                LastLabel.Split(delim, StringSplitOptions.RemoveEmptyEntries)[0],
+                LastLabel.Split(delim, StringSplitOptions.RemoveEmptyEntries)[1]
+                );
        }
 
        public void UpdateUI(String _status)
@@ -182,6 +190,6 @@ namespace xomanufacture
         public Brush Light2;
         public Brush Light3;
         public String Status;
-        public int Visibility;
+        public Double Visibility;
     }
 }
