@@ -24,6 +24,7 @@ using System.Windows.Media;
 using System.Globalization;
 using System.Windows;
 using Zen.Barcode;
+using System.Windows.Markup;
 
 
 namespace xomanufacture
@@ -1303,10 +1304,10 @@ namespace xomanufacture
                 TypeSetLine("TM", "Tahoma", 6, 170, 10);
                 TypeSetLine("101-5-1.0", "Tahoma", 6, 90, 25);
                 TypeSetLine("Designed & Assembled in California", "Tahoma", 11, 20, 40);
-                TypeSetLine("Default Username: admin", "Tahoma", 8, 60, 60);
-                TypeSetLine("Default Password: 123456", "Tahoma", 8, 60, 70);
-                TypeSetLine("Default IP Address on eth2: 192.168.2.1", "Tahoma", 8, 35, 80);
-                TypeSetLine("Default URL on eth1: http://exonet.local", "Tahoma", 8, 35, 90);
+                TypeSetLine("Default Username: admin", "Tahoma", 8, 20, 60);
+                TypeSetLine("Default Password: 123456", "Tahoma", 8, 20, 70);
+                TypeSetLine("Default IP Address on eth2: 192.168.2.1", "Tahoma", 8, 20, 80);
+                TypeSetLine("Default URL on eth1: http://exonet.local", "Tahoma", 8, 20, 90);
                 //typeset barcode
                 TypeSetLine("MAC ADR: " + mac_addr, "Consolas", 9, 20, 140);
                 //typeset barcode
@@ -1317,6 +1318,52 @@ namespace xomanufacture
 
                 var SrNoRect = new Rect(20, 155, 160, 25);
                 BarcodeDraw.Draw(LabelContext, sr_no, new BarcodeMetrics1d(1, 2, 30), SrNoRect);
+
+
+                String FCCXAML = @"<Canvas xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"" Name=""svg3336"" Width=""500"" Height=""420"">
+                <Canvas.Resources/>
+                <Path xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml"" Name=""path3338"" StrokeThickness=""40"" Stroke=""#FF000000"" Data=""M403.762 263.297 A92.5 92.5 0 1 1 402.733 156.056 M473.261 311.743 A177.218 177.218 0 1 1 471.288 106.283""/>
+                <Path xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml"" Name=""path3340"" Fill=""#000000"" Data=""M134 190H51.78V57.47H149.29L179.29 17.47H11.78V400L51.78 373.3 V230H134Z""/>
+                </Canvas>
+                ";
+                Canvas FCCLogo = XamlReader.Parse(FCCXAML) as Canvas;
+                VisualBrush FCCIcon = new VisualBrush(FCCLogo);
+                LabelContext.DrawGeometry(FCCIcon, new Pen(Brushes.Transparent, 0), new RectangleGeometry(new Rect(120, 60, 25, 20)));
+
+                String CEXAML = @"<Canvas xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"" Name=""svg2"" Width=""279.8497"" Height=""200"">
+                <Canvas.Resources/>
+                <Canvas Name=""layer1"">
+                <Canvas.RenderTransform>
+                <TranslateTransform X=""-1.7385019"" Y=""-487.18166""/>
+                </Canvas.RenderTransform>
+                <Canvas Name=""g3004"">
+                <Canvas.RenderTransform>
+                <TranslateTransform X=""2.2385229"" Y=""-365.68055""/>
+                </Canvas.RenderTransform>
+                <Path xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml"" Name=""path3006"" Fill=""#FF000000"" StrokeThickness=""0.37558964"" Stroke=""#FF000000"" Data=""m 109.48115 853.55031 0 30.15996 a 69.868543 69.868543 0 1 0 0 138.30383 l 0 30.16 a 99.812205 99.812205 0 1 1 0 -198.62379 z""/>
+                <Path xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml"" Name=""path3008"" Fill=""#FF000000"" StrokeThickness=""0.37558964"" Stroke=""#FF000000"" Data=""m 200.93511 937.89037 a 69.868543 69.868543 0 0 1 78.22678 -54.1801 l 0 -30.15996 a 99.812205 99.812205 0 1 0 0 198.62379 l 0 -30.16 a 69.868543 69.868543 0 0 1 -78.22678 -54.18008 l 58.26434 0 0 -29.94365 -58.26434 0 z""/>
+                </Canvas>
+                </Canvas>
+                </Canvas>
+                ";
+                Canvas CELogo = XamlReader.Parse(CEXAML) as Canvas;
+                VisualBrush CEIcon = new VisualBrush(CELogo);
+                LabelContext.DrawGeometry(CEIcon, new Pen(Brushes.Transparent, 0), new RectangleGeometry(new Rect(150, 60, 25, 20)));
+
+                String ROHSXAML = @"<Canvas xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"" Name=""svg3381"" Width=""146.862"" Height=""209.074"">
+                <Canvas Name=""Layer_x0020_2"">
+                <Canvas Name=""_97073168"">
+                <Rectangle xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml"" Canvas.Left=""11.7563"" Canvas.Top=""179.338"" Width=""121.86"" Height=""29.7355"" Name=""_98270272"" Fill=""#000000""/>
+                <Path xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml"" Name=""_97972288"" Fill=""#000000"" Data=""M65.5683 52.478l25.6733 0 0 8.07196 -25.6733 0 0 -8.07196zm-8.11524 76.862l0 5.90403 -7.63045 0 0 -5.94899c-0.835184 -0.179852 -1.47794 -0.884109 -1.55271 -1.76891l-8.17407 -96.6335 -5.71388 0 0 -3.84325 4.84046 0c0.792103 -3.88435 4.62882 -6.70237 8.40819 -8.32253l0 -2.79692 7.17508 0 0 0.755162c3.78056 -0.812505 7.58707 -1.389 11.4663 -1.56826l0 -1.26362 19.8582 0 0 1.73811c3.74035 0.13271 7.54488 0.679893 11.0112 1.92272 3.19713 1.14626 6.08388 2.87595 8.35154 5.39874 1.01989 -1.39425 2.66788 -2.30035 4.52721 -2.30035 3.09532 0 5.60553 2.51021 5.60553 5.60553 0 3.09532 -2.51021 5.60553 -5.60553 5.60553 -0.919069 0 -1.78684 -0.221646 -2.5524 -0.613835l-0.61027 6.80339 8.43454 0 0 14.1313 -9.70212 0 -5.32188 59.3296c5.4539 1.183 9.54099 6.03733 9.54099 11.8449 0 6.69316 -5.42785 12.121 -12.121 12.121 -4.50156 0 -8.43107 -2.45554 -10.5216 -6.09983l-29.7134 0zm40.2349 -10.1693c2.29054 0 4.14809 1.85755 4.14809 4.14809 0 2.29054 -1.85755 4.14809 -4.14809 4.14809 -2.29054 0 -4.14809 -1.85755 -4.14809 -4.14809 0 -2.29054 1.85755 -4.14809 4.14809 -4.14809zm-11.9255 6.32603c-0.128254 -0.706732 -0.1955 -1.43426 -0.1955 -2.17794 0 -6.27334 4.76817 -11.4352 10.8774 -12.058l5.30287 -59.1164 -0.418335 0 0 -14.1313 1.68592 0 0.638694 -7.12041 -59.7027 0 8.00224 94.6041 33.8095 0zm11.9255 -8.62429c3.55961 0 6.44636 2.88675 6.44636 6.44636 0 3.55961 -2.88675 6.44636 -6.44636 6.44636 -3.55961 0 -6.44636 -2.88675 -6.44636 -6.44636 0 -3.55961 2.88675 -6.44636 6.44636 -6.44636zm8.88744 -75.7149l-0.703464 7.84239 6.27562 0 0 -7.84239 -5.57215 0zm-51.7697 -20.5436l0 6.43546 49.0542 0c-1.9246 -2.89497 -4.76103 -4.76767 -8.00957 -5.93235 -2.99252 -1.07297 -6.3595 -1.55479 -9.72014 -1.68067l0 3.15375 -19.8582 0 0 -3.63844c-3.88019 0.196392 -7.68631 0.813891 -11.4663 1.66225zm-7.17508 6.43546l0 -4.08906c-1.92371 1.00553 -3.73778 2.3875 -4.43154 4.08906l4.43154 0zm21.7858 -10.0517l13.5693 0 0 2.44801 -13.5693 0 0 -2.44801z""/>
+                <Polygon xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml"" Points=""146.862,0 71.6744,76.2965 0,0.973441 0,6.5346 68.9823,79.0283 1.79704,147.204 4.57445,149.846 71.6258,81.8064 135.869,149.32 138.647,146.678 74.318,79.0746 146.862,5.46064 "" Name=""_98273200"" FillRule=""evenodd"" Fill=""#000000""/>
+                </Canvas>
+                </Canvas>
+                </Canvas>
+                ";
+                Canvas ROHSLogo = XamlReader.Parse(ROHSXAML) as Canvas;
+                VisualBrush ROHSIcon = new VisualBrush(ROHSLogo);
+                LabelContext.DrawGeometry(ROHSIcon, new Pen(Brushes.Transparent, 0), new RectangleGeometry(new Rect(180, 60, 20, 30)));
+
 
             }
             printDlg.PrintVisual(visual, "LABEL");
