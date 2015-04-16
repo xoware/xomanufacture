@@ -65,19 +65,19 @@ namespace xomanufacture
             //add delimiter--------------------to file
             // and just dump today status in memory tostring and save that to file
             File.Create(FileName);
-            File.AppendAllText(FileName, "InFlightFileSection:     MacPoolList");
+            File.AppendAllText(FileName, "InFlightFileSection:     MacPoolList" + Environment.NewLine);
             foreach (MacAddPool IterMAC in MacPoolList)
             {
-                File.AppendAllText(FileName, IterMAC.ToString());
+                File.AppendAllText(FileName, IterMAC.ToString() + Environment.NewLine);
             }
 
-            File.AppendAllText(FileName, "InFlightFileSection:     TodayStatus");
-            File.AppendAllText(FileName, TodayStatus.ToString());
+            File.AppendAllText(FileName, "InFlightFileSection:     TodayStatus" + Environment.NewLine);
+            File.AppendAllText(FileName, TodayStatus.ToString() + Environment.NewLine);
 
-            File.AppendAllText(FileName, "InFlightFileSection:     ExoNetStack");
+            File.AppendAllText(FileName, "InFlightFileSection:     ExoNetStack" + Environment.NewLine);
             foreach (ExoNetUT IterUT in ExoNetStack)
             {
-                File.AppendAllText(FileName, IterUT.ToString());
+                File.AppendAllText(FileName, IterUT.ToString() + Environment.NewLine);
             }
              
         }
@@ -151,7 +151,7 @@ namespace xomanufacture
             // Take the  EN at list[index] and convert tostring and save to 
             // Filename 
             // change its Alive to false;
-            File.AppendAllText(FileName, ExoNetStack[index].ToString());
+            File.AppendAllText(FileName, ExoNetStack[index].ToString() + Environment.NewLine);
             lock (CriticalSection)
             {
                 ExoNetStack[index].Alive = false;
@@ -210,12 +210,12 @@ namespace xomanufacture
             // save macpoollist
             String coname = PathName + @"\xomanuf.conf";
             File.Delete(coname);
-            File.AppendAllText("ADAPTER1#" + Adapter1, coname);
-            File.AppendAllText("ADAPTER2#" + Adapter2, coname);
+            File.AppendAllText("ADAPTER1#" + Adapter1, coname + Environment.NewLine);
+            File.AppendAllText("ADAPTER2#" + Adapter2, coname + Environment.NewLine);
             for (int index=0; index < MacPoolList.Count; index++)
             {
                 MacAddPool IterMAC = MacPoolList[index];
-                File.AppendAllText(coname, "MACPOOL"+index.ToString()+"="+IterMAC.ToString());
+                File.AppendAllText(coname, "MACPOOL"+index.ToString()+"="+IterMAC.ToString() + Environment.NewLine);
             }
         }
 
@@ -246,6 +246,15 @@ namespace xomanufacture
                     }
                 }
             }
+            else
+            {
+                File.AppendAllText(coname, "ADAPTER1#marker values replace with correct :GUID eg:{BBD7D6C7-4475-44B7...}" + Environment.NewLine);
+                File.AppendAllText(coname, "ADAPTER2#marker values replace with correct :GUID eg:{BBD7D6C7-4475-44B7...}" + Environment.NewLine);
+                File.AppendAllText(coname, @"MACPOOL1=Start#00:11:22:33:44:55|End#00:11:22:33:44:99|Next#00:11:22:33:44:55" + Environment.NewLine);
+                File.AppendAllText(coname, @"MACPOOL1=Start#00:11:22:33:44:55|End#00:11:22:33:44:99|Next#00:11:22:33:44:55" + Environment.NewLine);
+                shell = true;
+            }
+
             if (!shell)
             {
                 foreach (String FileLine in File.ReadAllLines(coname))
@@ -265,13 +274,7 @@ namespace xomanufacture
                     }
                 }
             }
-            else
-            {
-                File.AppendAllText(coname, "ADAPTER1#marker values replace with correct :GUID eg:{BBD7D6C7-4475-44B7...}");
-                File.AppendAllText(coname, "ADAPTER2#marker values replace with correct :GUID eg:{BBD7D6C7-4475-44B7...}");
-                File.AppendAllText(coname, @"MACPOOL1=Start#00:11:22:33:44:55|End#00:11:22:33:44:99|Next#00:11:22:33:44:55");
-                File.AppendAllText(coname, @"MACPOOL1=Start#00:11:22:33:44:55|End#00:11:22:33:44:99|Next#00:11:22:33:44:55");
-            }
+
             return shell;
         }
 
@@ -325,7 +328,7 @@ namespace xomanufacture
                     SaveConFile();
                     String[] templinearray = File.ReadAllLines(coname);
 
-                    File.AppendAllText(namedone, EndTime);
+                    File.AppendAllText(namedone, EndTime + Environment.NewLine);
                     File.AppendAllLines(namedone, templinearray);
                     File.Move(namedone, namedated);
 
@@ -431,6 +434,7 @@ namespace xomanufacture
             }
             else
             {
+                LoadConFile();
                 return reply;
             }
 
@@ -511,7 +515,7 @@ namespace xomanufacture
             // write currenttime to it.
             // Load macpoollist
             File.Copy(coname, namedone);
-            File.AppendAllText(namedone, StartTime);
+            File.AppendAllText(namedone, StartTime + Environment.NewLine);
             reply = LoadConFile();
             return reply;
         }
@@ -899,7 +903,7 @@ namespace xomanufacture
 
         }
 
-        public string ToString()
+        public override String ToString()
         {
             // convert an entire instance into a single line of string
             String InstString =     "Alive#" + Alive.ToString() + "|" +

@@ -28,7 +28,7 @@ namespace xomanufacture
             ReflectUIStack = new List<ReflectUI>(new ReflectUI[16]);
         }
 
-       public void StartPageSignal()
+       public override void StartPageFunc()
        {
            TheController.CtrlThread.Start();
 
@@ -116,7 +116,7 @@ namespace xomanufacture
                 );
        }
 
-       public void UpdateUI(String _status)
+       public override void UpdateUI(String _status)
        {
            // transcode_copy all the changes from ExonetUIstack to Reflectuistack
            // also status String

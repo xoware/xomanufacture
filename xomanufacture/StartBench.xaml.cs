@@ -32,8 +32,10 @@ namespace xomanufacture
         public StartBench()
         {
             DataContextChanged += new DependencyPropertyChangedEventHandler(DC_Init);
+            //Loaded += (ob, ev) => MyViewModel.StartPageFunc();
             InitializeComponent();
         }
+
 
         private void DC_Init(object sender, DependencyPropertyChangedEventArgs e)
         {

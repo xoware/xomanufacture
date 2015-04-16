@@ -27,7 +27,7 @@ namespace xomanufacture
         public BarCodeScanner BCScanObject;
         public String TestIOToken;
 
-        public void StartPageSignal()
+        public override void StartPageFunc()
         {
             var response = TheController.DoStartupChecks();
             if (response.Status)

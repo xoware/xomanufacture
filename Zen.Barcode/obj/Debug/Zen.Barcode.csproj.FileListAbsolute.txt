@@ -1,0 +1,6 @@
+C:\Users\w7\Desktop\xomanufacture\Zen.Barcode\bin\Debug\Zen.Barcode.dll
+C:\Users\w7\Desktop\xomanufacture\Zen.Barcode\bin\Debug\Zen.Barcode.pdb
+C:\Users\w7\Desktop\xomanufacture\Zen.Barcode\obj\Debug\Zen.Barcode.Properties.Resources.resources
+C:\Users\w7\Desktop\xomanufacture\Zen.Barcode\obj\Debug\Zen.Barcode.csproj.GenerateResource.Cache
+C:\Users\w7\Desktop\xomanufacture\Zen.Barcode\obj\Debug\Zen.Barcode.dll
+C:\Users\w7\Desktop\xomanufacture\Zen.Barcode\obj\Debug\Zen.Barcode.pdb

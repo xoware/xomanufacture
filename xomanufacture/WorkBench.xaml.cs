@@ -36,6 +36,7 @@ namespace xomanufacture
         {
 
             DataContextChanged += new DependencyPropertyChangedEventHandler(DC_Init);
+            //Loaded += (ob, ev) => MyViewModel.StartPageFunc();
             InitializeComponent();
             StackPanelArr = new[] {ENUT00, ENUT01, ENUT02, ENUT03, ENUT04, ENUT05, ENUT06, ENUT07, ENUT08, ENUT09, ENUT10, ENUT11, ENUT12, ENUT13, ENUT14, ENUT15};
             DUTStackPanel = new ENUTPanelPointer[16];
@@ -57,6 +58,7 @@ namespace xomanufacture
             }
 
         }
+
 
         private void DC_Init(object sender, DependencyPropertyChangedEventArgs e)
         {

@@ -19,12 +19,11 @@ using System.Reflection;
 using System.Net.NetworkInformation;
 using System.Security.Principal;
 using System.IO;
-using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using NETWORKLIST;
 using NetFwTypeLib;
 using NETCONLib;
-using System.Reflection;
+using System.Windows;
 
 
 
@@ -254,6 +253,7 @@ namespace xomanufacture
                     // disable the fw in private profiles
                     FirewallHelper.Instance.SetFirewallStatus(false);
                     //Console.WriteLine(FirewallHelper.Instance.HasAuthorization(Assembly.GetExecutingAssembly().Location).ToString());
+                    return ReturnMesg;
                 }
             }
             ReturnMesg = "No Network";
@@ -549,7 +549,7 @@ namespace xomanufacture
                     _currentPageViewModel = value;
                     //firing off the change the page event for UI to actually do it.
                     NotifyPropertyChanged("CurrentPageViewModel");
-                    _currentPageViewModel.StartPageSignal();
+                    _currentPageViewModel.PreStartPageSignal();
                 }
             }
         }
@@ -646,23 +646,42 @@ namespace xomanufacture
             Response += TheModel.ExoNetStack[TopIndex].SerialNo + "|";
             return Response;
         }
+
+        public void ResetContentRenderedDele(StartHandlerType _handler)
+        {
+            MyWindow.ResetContentRenderedHandler();
+            MyWindow.AddContentRenderedHandler(_handler);
+        } 
     }
 
-
+    public delegate void StartHandlerType(Object o, EventArgs e);
 
     class aBenchViewModel
     {
         public static String Name;
         protected AController TheController;
+        private bool RunStartDone = false;
 
         public aBenchViewModel(AController _controller)
         {
             TheController = _controller;
         }
 
-        public void StartPageSignal() {}
+        public virtual void StartPageFunc() { return; }
+        public void StartPageGeneric(Object o, EventArgs e)
+        {
+            if (!RunStartDone)
+            {
+                RunStartDone = true;
+                StartPageFunc();
+            }
+        }
+        public virtual void PreStartPageSignal()
+        {
+            TheController.ResetContentRenderedDele(StartPageGeneric);
+        }
 
-        public void UpdateUI(String _stat) {}
+        public virtual void UpdateUI(String _stat) { return; }
         
         public ICommand ChangePageCommand
         {

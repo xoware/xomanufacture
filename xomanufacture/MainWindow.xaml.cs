@@ -23,8 +23,29 @@ namespace xomanufacture
         public MainWindow()
         {
             InitializeComponent();
+            StartHandlerChain = new List<StartHandlerType>();
+            ContentRendered += (o, e) => ContentRenderedHandler(o, e);
+        }
+
+        private List<StartHandlerType> StartHandlerChain;
+        private void ContentRenderedHandler(Object o, EventArgs e)
+        {
+            foreach (StartHandlerType element in StartHandlerChain)
+            {
+                element(o, e);
+            }
+        }
+
+        public void AddContentRenderedHandler(StartHandlerType _dele)
+        {
+            StartHandlerChain.Add(_dele);
+        }
+
+        public void ResetContentRenderedHandler()
+        {
+            StartHandlerChain = null;
+            StartHandlerChain = new List<StartHandlerType>();
         }
     }
-
 
 }
