@@ -81,6 +81,7 @@ namespace xomanufacture
             this.PreviewKeyDown += ScanPKDDelegate;
             this.PreviewKeyUp += ScanPKUDelegate;
             TestScan.Background = Brushes.Red;
+	    ConsoleLabel.Content = "Please SCAN Printer_Test LABEL JUST PRINTED";
         }
         private void Scan_Action(object sender, PropertyChangedEventArgs e)
         {

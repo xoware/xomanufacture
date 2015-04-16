@@ -275,7 +275,7 @@ namespace xomanufacture
                 }
             }
 
-            return shell;
+            return !shell;
         }
 
         public void CommitDone(int index)
@@ -514,7 +514,7 @@ namespace xomanufacture
             // init it by copying the xomanuf.conf to it
             // write currenttime to it.
             // Load macpoollist
-            File.Copy(coname, namedone);
+            File.Copy(coname, namedone, true);
             File.AppendAllText(namedone, StartTime + Environment.NewLine);
             reply = LoadConFile();
             return reply;

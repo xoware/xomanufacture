@@ -42,10 +42,11 @@ namespace xomanufacture
             DUTStackPanel = new ENUTPanelPointer[16];
             for (int i = 0; i < 16; i++)
             {
+		DUTStackPanel[i] = new ENUTPanelPointer();
                 DUTStackPanel[i].Light1 = StackPanelArr[i].Children[0] as Ellipse ;
-                DUTStackPanel[i].Light2 = StackPanelArr[i].Children[0] as Ellipse;
-                DUTStackPanel[i].Light3 = StackPanelArr[i].Children[0] as Ellipse;
-                DUTStackPanel[i].Status = StackPanelArr[i].Children[0] as TextBlock;
+                DUTStackPanel[i].Light2 = StackPanelArr[i].Children[1] as Ellipse;
+                DUTStackPanel[i].Light3 = StackPanelArr[i].Children[2] as Ellipse;
+                DUTStackPanel[i].Status = StackPanelArr[i].Children[3] as TextBlock;
                 DUTStackPanel[i].ENBox = DUTViewStack.Children[i] as GroupBox;
             }
             for (int i = 0; i < 16; i++)

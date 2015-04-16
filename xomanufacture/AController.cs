@@ -226,7 +226,8 @@ namespace xomanufacture
                 else
                 {
                     //found Shared/Internet network
-                    SharedAdap = nic.Id;
+                    if (nic.OperationalStatus == OperationalStatus.Up)
+                    	SharedAdap = nic.Id;
                 }
             }
             if (reply1 && reply2 && SharedAdap != "")

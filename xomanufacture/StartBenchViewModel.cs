@@ -61,6 +61,8 @@ namespace xomanufacture
             TestIOToken = TheController.GetRunDate();
             LabelPrinter.PrintLabel(TestIOToken, TestIOToken);
             BCScanObject.FireEnableEvent(PostScanHook);
+	    // update the message
+            EnableEnterEvent("UpdtMsg", new PropertyChangedEventArgs("Click  [Test Scanner] to Continue"));
         }
         public void PostScanHook(String ScanValue)
         {
