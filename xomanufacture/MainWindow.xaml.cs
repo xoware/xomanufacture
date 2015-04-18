@@ -24,7 +24,8 @@ namespace xomanufacture
         {
             InitializeComponent();
             StartHandlerChain = new List<StartHandlerType>();
-            ContentRendered += (o, e) => ContentRenderedHandler(o, e);
+            //ContentRendered += (o, e) => ContentRenderedHandler(o, e);
+	    MainCC.Loaded += (o, e) => ContentRenderedHandler(o, e);
         }
 
         private List<StartHandlerType> StartHandlerChain;

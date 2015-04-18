@@ -18,6 +18,6 @@
 
 
 
-    <ContentControl Content="{Binding CurrentPageViewModel}" />
+    <ContentControl Name="MainCC" Content="{Binding CurrentPageViewModel}" />
 
 </Window>

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 
 namespace xomanufacture
@@ -28,6 +29,20 @@ namespace xomanufacture
         public String TestIOToken;
 
         public override void StartPageFunc()
+        {
+            // since this is not long running, should do either of these modern methods 
+            //  instead of thread or threadpool/background worker
+            // either plain tasks or delegate_dispatcher/begin_invoke
+            //var child = Task.Factory.StartNew(() => 
+            //since there is an issue of thread changing so can only use
+            //dispatcher with a delegate/closure.
+            tempdeletype adel = StartPageFuncDele;
+            //App.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, adel);
+            Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, adel);
+
+        }
+        public delegate void tempdeletype();
+        public void StartPageFuncDele()
         {
             var response = TheController.DoStartupChecks();
             if (response.Status)

@@ -24,6 +24,7 @@ using NETWORKLIST;
 using NetFwTypeLib;
 using NETCONLib;
 using System.Windows;
+using System.Diagnostics;
 
 
 
@@ -164,9 +165,16 @@ namespace xomanufacture
                 Reply.Message = "Could Not prep the networks.";
                 return Reply;
             }
+            Reply.Status = PrepAdapters();
+            if (Reply.Status == false)
+            {
+                Reply.Message = "Could Not prep the Adapters.";
+                return Reply;
+            }
 
             //check to make sure winpcap is installed if that can be done.
-            if (!File.Exists(@"C:\Program Files\WinPcap\install.log"))
+            if (!File.Exists(@"C:\Program Files\WinPcap\install.log") 
+		        && !File.Exists(@"C:\Program Files (x86)\WinPcap\install.log"))
             {
                 Reply.Status = false;
                 Reply.Message = "WinPCAP installation not found. Please make sure its installed in default location. Also that it startsup automatically at bootup.";
@@ -234,6 +242,31 @@ namespace xomanufacture
                 EnableICS(SharedAdap, AModel.Adapter1, true);
             return reply1 && reply2;
         }
+        public bool PrepAdapters()
+        {
+            bool reply1 = false;
+            bool reply2 = false;
+
+            foreach (var nic in IcsManager.GetIPv4EthernetAndWirelessInterfaces())
+            {
+                if (nic.Id == AModel.Adapter1 || nic.Id == AModel.Adapter2)
+                {
+                    if (nic.OperationalStatus == OperationalStatus.Up)
+                    {
+                        if (nic.Id == AModel.Adapter1)
+                            reply1 = A1Finalize(nic.Name);
+                        if (nic.Id == AModel.Adapter2)
+                            reply2 = A2Finalize(nic.Name);
+                    }
+                    else
+                    {
+                        reply1 = false;
+                        reply2 = false;
+                    }
+                }  
+            }
+            return reply1 && reply2;
+        }
         public static String IdToNetworkPrivatise(String AdapID)
         {
             var NLM = new NetworkListManager();
@@ -290,6 +323,48 @@ namespace xomanufacture
             }
 
             IcsManager.ShareConnection(connectionToShare, homeConnection);
+        }
+        static bool A1Finalize(String NicName)
+        {
+            String ProcName = @"C:\Windows\System32\netsh.exe";
+            String ProcArgs = @" interface ip add address """ +
+                 NicName + @""" 169.254.254.254 255.255.255.0" ;
+            Process uproc = new Process();
+            uproc.StartInfo.FileName = ProcName;
+            uproc.StartInfo.Arguments = ProcArgs;
+            uproc.StartInfo.CreateNoWindow = true;
+            uproc.StartInfo.UseShellExecute = false;
+            uproc.Start();
+            uproc.WaitForExit();
+            if (uproc.ExitCode == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        static bool A2Finalize(String NicName)
+        {
+            String ProcName = @"C:\Windows\System32\netsh.exe";
+            String ProcArgs = @" interface ip set address """ +
+                 NicName + @""" static 192.168.2.8 255.255.255.0";
+            Process uproc = new Process();
+            uproc.StartInfo.FileName = ProcName;
+            uproc.StartInfo.Arguments = ProcArgs;
+            uproc.StartInfo.CreateNoWindow = true;
+            uproc.StartInfo.UseShellExecute = false;
+            uproc.Start();
+            uproc.WaitForExit();
+            if (uproc.ExitCode == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
 
@@ -354,7 +429,7 @@ namespace xomanufacture
             // macs and ips associated with them
             // ping responses only from 2nd interface and the mac it came from.
             String Intf1BPF = "udp and dst 169.254.254.254 and (dst port 69 or dst port 36969)";
-            String Intf2BPF = "icmp and src 192.168.2.1 and destination 192.168.2.254";
+            String Intf2BPF = "icmp and src 192.168.2.1 and dst 192.168.2.254";
             //libpcap object device.name is contains our adapter1 guid.
             libpcapObj FirIntfProc = new libpcapObj(AModel.Adapter1, Intf1Handler, Intf1BPF);
             libpcapObj SecIntfProc = new libpcapObj(AModel.Adapter2, Intf2Handler, Intf2BPF);

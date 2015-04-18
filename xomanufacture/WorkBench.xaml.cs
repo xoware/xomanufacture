@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+
 
 namespace xomanufacture
 {
@@ -76,6 +78,8 @@ namespace xomanufacture
 
                 MyViewModel.ResetEventHandlerChain();
                 MyViewModel.UpdateUIEvent += new PropertyChangedEventHandler(ReflectChanges);
+
+            	Loaded += (ob, ev) => MyViewModel.StartPageLoad();
             }
         }
 
@@ -118,16 +122,27 @@ namespace xomanufacture
         {
             //Routine update the property elements
             List<ReflectUI> Reflection = sender as List<ReflectUI>;
-            for (int i = 0; i < 16; i++)
+
+	    // absolutely make sure that we are in ui threead that
+	    // owns the DUTStackPanel controls. the closure(sender and e)
+	    // will get dispatched to ui now. This will work even if the 
+	    // caller raising the reflectchanges event handler is a
+	    // different thread. it can dispatch the reflection and e to
+	    // 'this' but cant steal DUTStackPanel. 'this' is a ui control. 
+            this.Dispatcher.Invoke(() =>
             {
-                //update all elements of all en visuals
-                DUTStackPanel[i].Light1.Fill = Reflection[i].Light1;
-                DUTStackPanel[i].Light2.Fill = Reflection[i].Light2;
-                DUTStackPanel[i].Light3.Fill = Reflection[i].Light3;
-                DUTStackPanel[i].Status.Text = Reflection[i].Status;
-                DUTStackPanel[i].ENBox.Opacity = Reflection[i].Visibility;
-            }
-            WorkBox.Text = e.PropertyName;
+                for (int i = 0; i < 16; i++)
+                {
+                    //update all elements of all en visuals
+                    DUTStackPanel[i].Light1.Fill = Reflection[i].Light1;
+                    DUTStackPanel[i].Light2.Fill = Reflection[i].Light2;
+                    DUTStackPanel[i].Light3.Fill = Reflection[i].Light3;
+                    DUTStackPanel[i].Status.Text = Reflection[i].Status;
+                    DUTStackPanel[i].ENBox.Opacity = Reflection[i].Visibility;
+                }
+                WorkBox.Text = e.PropertyName;
+
+            });
         }
     }
     class ENUTPanelPointer

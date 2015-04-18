@@ -9,7 +9,7 @@
         <TextBlock HorizontalAlignment="Center" Margin="0,-150,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Height="74" Width="163"><Run FontSize="24" Text="x.o.ware "/><LineBreak/><LineBreak/><Run Text="Exonet Manufacturing Station"/><LineBreak/><Run/></TextBlock>
         <Button Content="Start Station" Name="StartButton" CommandParameter="Next" Command="{Binding ChangePageCommand}" IsEnabled="False" HorizontalAlignment="Center" Margin="0,100,0,0" VerticalAlignment="Center" Width="75"/>
         <Frame Name="Frame0" />
-        <Button Name="TestScan" Content="Test Scanner" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center" Width="76"  IsEnabled="False" Click="Scan_Start" />
+        <Button Name="TestScan" Content="Test Scanner" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center" Width="75"  IsEnabled="False" Click="Scan_Start" />
         <Button Name="TestPrint" Content="Test Printer" HorizontalAlignment="Center" Margin="0,-50,0,0" VerticalAlignment="Center" Width="75" IsEnabled="False" CommandParameter="Start" Command="{Binding TestPrintCommand}" />
         <Label Name="ConsoleLabel" HorizontalAlignment="Center" Margin="0,200,0,0" VerticalAlignment="Center" Background="Beige" Padding="5" FontSize="12" Content="Doing Startup Testing... Please Wait" />
     </Grid>

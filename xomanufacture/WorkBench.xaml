@@ -8,9 +8,9 @@
              mc:Ignorable="d" ScrollViewer.VerticalScrollBarVisibility="Disabled" MinWidth="800" Width="800" MinHeight="600">
 
     <Grid>
-        <Button Name="PauseButton" Content="Reprint Label" Command="{Binding PauseCommand}" HorizontalAlignment="Left" Margin="35,300,0,0" VerticalAlignment="Top" Width="75" Height="15"/>
-        <Button Name="NextButton" Content="Next/Reset" Command="{Binding ResetCommand}" HorizontalAlignment="Left" Margin="35,100,0,0" VerticalAlignment="Top" Width="75" Height="15"/>
-        <Button Name="EndButton" Content="End of Shift" CommandParameter="Exit" Command="{Binding ChangePageCommand}" HorizontalAlignment="Left" Margin="35,350,0,0" VerticalAlignment="Top" Width="75" Height="15"/>
+        <Button Name="PauseButton" Content="Reprint Label" Command="{Binding PauseCommand}" HorizontalAlignment="Left" Margin="35,300,0,0" VerticalAlignment="Top" Width="75" />
+        <Button Name="NextButton" Content="Next/Reset" Command="{Binding ResetCommand}" HorizontalAlignment="Left" Margin="35,100,0,0" VerticalAlignment="Top" Width="75" />
+        <Button Name="EndButton" Content="End of Shift" CommandParameter="Exit" Command="{Binding ChangePageCommand}" HorizontalAlignment="Left" Margin="35,350,0,0" VerticalAlignment="Top" Width="75" />
         <StackPanel Name="DUTViewStack" HorizontalAlignment="Left" Margin="150,75,0,50" Width="175" Background="#FFFFFFEE"  >
 
             
@@ -150,6 +150,6 @@
         <TextBlock Name="WorkBox" HorizontalAlignment="Left" Height="475" Margin="400,75,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="350" Background="White"/>
         <StatusBar HorizontalAlignment="Left" Height="20" Margin="35,0,0,0" VerticalAlignment="Top" Width="715"/>
         <Image HorizontalAlignment="Left" Height="75" Margin="325,75,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button Name="ScanButton" Content="Scan" HorizontalAlignment="Left" Margin="35,150,0,0" VerticalAlignment="Top" Width="75" Height="15" Click="Scan_Start" IsEnabled="False"/>
+        <Button Name="ScanButton" Content="Scan" HorizontalAlignment="Left" Margin="35,150,0,0" VerticalAlignment="Top" Width="75"  Click="Scan_Start" IsEnabled="False"/>
     </Grid>
 </UserControl>

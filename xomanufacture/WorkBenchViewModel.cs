@@ -26,9 +26,13 @@ namespace xomanufacture
             Name = "WorkBench";
             BCScanObject = new BarCodeScanner();
             ReflectUIStack = new List<ReflectUI>(new ReflectUI[16]);
+	    for (int index =0; index < 16; index++)
+	    {
+		ReflectUIStack[index] = new ReflectUI();
+	    }
         }
 
-       public override void StartPageFunc()
+       public void StartPageLoad()
        {
            TheController.CtrlThread.Start();
 
@@ -177,10 +181,17 @@ namespace xomanufacture
                    }
                }
                String StatString = LabelBox + "|" + _status;
-               UpdateUIEvent(ReflectUIStack, new PropertyChangedEventArgs(StatString));
-           }
 
+               //Dispatcher.CurrentDispatcher.Invoke(() =>
+		// DONT WANT CURRENT DISPATCHER!!! App.Current is UI we will make double
+		// sure of this in the code-behind when handling this event.
+               App.Current.Dispatcher.Invoke(() =>
+               {
+                   UpdateUIEvent(ReflectUIStack, new PropertyChangedEventArgs(StatString));
+               });
+           }
        }
+
     }
 
     class ReflectUI

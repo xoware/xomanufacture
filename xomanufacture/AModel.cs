@@ -49,6 +49,10 @@ namespace xomanufacture
         {
             CriticalSection = new Object();
             ExoNetStack = new List<ExoNetUT>(new ExoNetUT[16]);
+            for (int index = 0; index < ExoNetStack.Count; index++)
+            {
+                ExoNetStack[index] = new ExoNetUT();
+            }
             MacPoolList = new List<MacAddPool>();
             // ??load some junk values in this incase of non-manuf uses of this software
             MyLock = new Object();
@@ -64,7 +68,7 @@ namespace xomanufacture
             // also save MacPoolList currently in memory tostring and save that to file
             //add delimiter--------------------to file
             // and just dump today status in memory tostring and save that to file
-            File.Create(FileName);
+            //File.Create(FileName);
             File.AppendAllText(FileName, "InFlightFileSection:     MacPoolList" + Environment.NewLine);
             foreach (MacAddPool IterMAC in MacPoolList)
             {
@@ -89,6 +93,7 @@ namespace xomanufacture
             // load macpoollist from next full line strings read from file. using fromstring ctor
             // catch delimiter and
             // load today status into memory from a line string.
+            MacPoolList = new List<MacAddPool>();
             String CurrentSection = " ";
             if (File.Exists(FileName))
             {
@@ -298,7 +303,10 @@ namespace xomanufacture
                 {
                     File.Delete(namea);
                 }
-                File.Move(nameb, namea);
+                if (File.Exists(nameb))
+                {
+                    File.Move(nameb, namea);
+                }
                 SaveToFile(nameb);
                 File.Delete(namea);
             }
@@ -464,16 +472,14 @@ namespace xomanufacture
                     {
                         reply = true;
                         //this is a genuine crash. load this nameb or nameb.old
-                        if (File.Exists(nameb))
+                        if (!File.Exists(nameb))
                         {
-                            File.Delete(nameb + ".old");
+                            File.Copy(nameb + ".old", nameb, true);
                         }
-                        else
-                        {
-                            File.Move(nameb + ".old", nameb);
-                        }
+                        File.Delete(nameb + ".old");
                         //load the nameb file into exonetstacck
                         //that will automatically load the macpoollist
+            		    reply = LoadConFile();
                         LoadFromFile(nameb);
                         return reply;
                     }
@@ -841,8 +847,22 @@ namespace xomanufacture
 
         public ExoNetUT()
         {
+            _Alive = false;
+            _DynamicMac = "";
+            _EtherMac1 = "";
+            _EtherMac2 = "";
+            _DynamicIP = "";
+            _LinkLocalIP = "";
+            _SerialNo = "";
+            _BarcodeData = "";
+            _PingTestStatus = false;
+            _BlinkingStatus = false;
+            _LabeledStatus = false;
+            _SvcdStatus = false;
+            _ReadyPending = false;
+            _ShinePending = false;
+
             l_Alive = new Object();
-            Alive = false;
             l_DynamicMac = new Object();
             l_EtherMac1 = new Object();
             l_EtherMac2 = new Object();
@@ -976,7 +996,7 @@ namespace xomanufacture
             EndInclusive = new MacAddress(EndString);
             NextAvailable = new MacAddress(NextString);
         }
-        public String ToString(MacAddPool Entry)
+        public override String ToString()
         {
             String FileLine = "Start#" + StartInclusive.ToString() + "|"
                                 + "End#" + EndInclusive.ToString() + "|"
@@ -1017,6 +1037,7 @@ namespace xomanufacture
             DayRunCount = 0;
             CurrentlyConnected = 0;
             CurrentlyReady = 0;
+            BadRunCount = "X:Y";
         }
 
         // add tostring and fromstring
@@ -1033,7 +1054,7 @@ namespace xomanufacture
 
         }
 
-        public String ToString(StatusBar Entry)
+        public override String ToString()
         {
             String FileLine = "DayRunCount#" + DayRunCount.ToString() + "|"
                                 + "BadRunCount#" + BadRunCount.ToString() + "|"
