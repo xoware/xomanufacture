@@ -349,7 +349,7 @@ namespace xomanufacture
         {
             String ProcName = @"C:\Windows\System32\netsh.exe";
             String ProcArgs = @" interface ip set address """ +
-                 NicName + @""" static 192.168.2.8 255.255.255.0";
+                 NicName + @""" static 192.168.2.254 255.255.255.0";
             Process uproc = new Process();
             uproc.StartInfo.FileName = ProcName;
             uproc.StartInfo.Arguments = ProcArgs;
@@ -377,14 +377,12 @@ namespace xomanufacture
 
             bool foundit = false; 
             foreach (ExoNetUT myut in Lref) {
-                if (myut.DynamicMac == SrcMac)
+                if (myut.DynamicMac == SrcMac || myut.EtherMac1 == SrcMac)
                 {
-                    myut.LinkLocalIP = SrcIp;
-                    foundit = true;
-                }
-                if (myut.EtherMac1 == SrcMac)
-                {
-                    myut.DynamicIP = SrcIp;
+		    if (SrcIp.Contains("169.254");
+                    	myut.LinkLocalIP = SrcIp;
+		    if (SrcIp.Contains("192.168");
+                    	myut.DynamicIP = SrcIp;
                     foundit = true;
                 }
             }
@@ -542,7 +540,7 @@ namespace xomanufacture
             {
                 foreach (ExoNetUT IterUT in TheModel.ExoNetStack)
                 {
-                    if (IterUT.DynamicIP == RemoteClient)
+                    if (IterUT.LinkLocalIP == RemoteClient)
                     {
                         IterUT.ReadyPending = true;
                         if (IterUT.ShinePending == true)
@@ -557,7 +555,7 @@ namespace xomanufacture
             {
                 foreach (ExoNetUT IterUT in TheModel.ExoNetStack)
                 {
-                    if (IterUT.DynamicIP == RemoteClient)
+                    if (IterUT.LinkLocalIP == RemoteClient)
                     {
                         IterUT.BlinkingStatus = true;
                         break;

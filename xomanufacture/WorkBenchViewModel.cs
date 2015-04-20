@@ -68,6 +68,7 @@ namespace xomanufacture
            int CoundDown = 10;
            while (CoundDown > 0)
            {
+		//TODO: While forever till the BlinkingStatus, not just 10 seconds!!!
                if (TheController.ReturnBlinkingStatus(TopIndex))
                {
                    BCScanObject.FireEnableEvent(PostScanHook);

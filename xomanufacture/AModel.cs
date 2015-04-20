@@ -1186,6 +1186,7 @@ namespace xomanufacture
                     data = Encoding.ASCII.GetBytes(ResponseData);
                     UdpServer.Send(data, data.Length, RemoteIP);
                 }
+            	RemoteIP = new IPEndPoint(IPAddress.Any, 0);
             }
         }
     }
