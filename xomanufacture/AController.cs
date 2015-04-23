@@ -379,9 +379,9 @@ namespace xomanufacture
             foreach (ExoNetUT myut in Lref) {
                 if (myut.DynamicMac == SrcMac || myut.EtherMac1 == SrcMac)
                 {
-		    if (SrcIp.Contains("169.254");
+		    if (SrcIp.Contains("169.254"));
                     	myut.LinkLocalIP = SrcIp;
-		    if (SrcIp.Contains("192.168");
+		    if (SrcIp.Contains("192.168"));
                     	myut.DynamicIP = SrcIp;
                     foundit = true;
                 }

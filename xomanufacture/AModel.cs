@@ -312,6 +312,28 @@ namespace xomanufacture
             }
         }
 
+        private bool RunPscp(String PArgs)
+        {
+            String ProcName = PathName + @"\pscp.exe";
+            String ProcArgs = @" -pw Designed&AssembledInCalifornia2229 " +
+                               @" -hostkey ab:f4:6d:e4:d9:cd:c9:af:0a:1b:41:f1:25:59:9e:d8 " + PArgs;
+            Process uproc = new Process();
+            uproc.StartInfo.FileName = ProcName;
+            uproc.StartInfo.Arguments = ProcArgs;
+            uproc.StartInfo.CreateNoWindow = true;
+            uproc.StartInfo.UseShellExecute = false;
+            uproc.Start();
+            uproc.WaitForExit();
+            if (uproc.ExitCode == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public void UploadLog()
         {
             // get the finish time and  append to done.txt finally append the xomanuf.conf to it also
@@ -327,6 +349,7 @@ namespace xomanufacture
             String ZipName = PathName + @"\rundone_" + TodaysDate + @".zip";
             String nameb = PathName + @"\inflight.txt";
             String coname = PathName + @"\xomanuf.conf";
+	    bool upSuccess;
 
             ZipArchive zarch = ZipFile.Open(ZipName, ZipArchiveMode.Create);
             if (File.Exists(nameb))
@@ -346,25 +369,10 @@ namespace xomanufacture
                     File.Delete(nameb);
                     File.Delete(nameb + ".old");
 
-                    String ProcArgs = PathName + @"\pscp.exe " +
-                                        " -pw Designed&AssembledInCalifornia2229 " +
-                                        " -hostkey ab:f4:6d:e4:d9:cd:c9:af:0a:1b:41:f1:25:59:9e:d8 " +
-                                        ZipName + " xomanuf@ns2.vpex.org:/home/xomanuf/" + StationName +
-                                        "_rundone_" + TodaysDate + ".zip ";
-                    /*
-                    var uproc = new ProcessStartInfo();
-                    uproc.UseShellExecute = true;
-                    uproc.WorkingDirectory = @"C:\Windows\System32";
-                    uproc.FileName = @"C:\Windows\System32\cmd.exe";
-                    uproc.Verb = "runas";
-                    uproc.Arguments = "/c " + ProcArgs;
-                    uproc.WindowStyle = ProcessWindowStyle.Hidden;
-                    Process.Start(uproc);
-                    */
-                    Process uproc = null;
-                    uproc = Process.Start(ProcArgs);
-                    uproc.WaitForExit();
-                    if (uproc.ExitCode == 0)
+                    String ProcArgs = ZipName + @" xomanuf@ns2.vpex.org:/home/xomanuf/" + StationName +
+                                        @"_rundone_" + TodaysDate + @".zip ";
+		            upSuccess = RunPscp(ProcArgs);
+                    if (upSuccess)
                     {
                         File.Move(ZipName, ZipName + "sent");
                     }
@@ -390,16 +398,11 @@ namespace xomanufacture
                 {
                     if (file.Contains("rundone") && !file.Contains("sent"))
                     {
-                        String ProcArgs = PathName + @"\pscp.exe " +
-                                         " -pw Designed&AssembledInCalifornia2229 " +
-                                         " -hostkey ab:f4:6d:e4:d9:cd:c9:af:0a:1b:41:f1:25:59:9e:d8 " +
-                                         file + " xomanuf@ns2.vpex.org:/home/xomanuf/" + StationName +
-                                         "_" + Path.GetFileName(file); 
+                        String ProcArgs = file + @" xomanuf@ns2.vpex.org:/home/xomanuf/" + StationName +
+                                         @"_" + Path.GetFileName(file); 
+			            upSuccess = RunPscp(ProcArgs);
 
-                        Process uproc = null;
-                        uproc = Process.Start(ProcArgs);
-                        uproc.WaitForExit();
-                        if (uproc.ExitCode == 0)
+                        if (upSuccess)
                         {
                             File.Move(file, file + "sent");
                         }
