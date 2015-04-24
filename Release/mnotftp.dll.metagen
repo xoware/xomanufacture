@@ -1,0 +1,16 @@
+ImageRuntimeVersion: v4.0.30319
+Assembly mnotftp, Version=0.0.*, Culture=Invariant Language (Invariant Country): 
+	hash=SHA1, flags=PublicKey
+Assembly mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Class BRCLI.BridgeCall: AutoLayout, AnsiClass, Class, Public, Sealed, BeforeFieldInit
+  :System.MulticastDelegate
+    Void .ctor(System.Object, IntPtr): PrivateScope, Public, SpecialName, RTSpecialName
+  Methods:
+    Invoke(IntPtr): PrivateScope, Public, Final, Virtual, VtableLayoutMask
+    BeginInvoke(IntPtr, AsyncCallback, Object): PrivateScope, Public, Final, Virtual, VtableLayoutMask
+    EndInvoke(IAsyncResult): PrivateScope, Public, Final, Virtual, VtableLayoutMask
+Class BRCLI.BridgeC: AutoLayout, AnsiClass, Class, Public, Abstract, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    RunCLI(BridgeCall): PrivateScope, Public, Static, HideBySig
