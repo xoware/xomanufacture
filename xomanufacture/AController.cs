@@ -111,8 +111,8 @@ namespace xomanufacture
                 PingReply reply = Pong.Send("192.168.2.1", timeout);
                 System.Threading.Thread.Sleep(2000);
                 TheModel.SaveInFlight();
-                //TODO
                 //call to update the view.
+                TheModel.TodayStatus.UpdateStatus(TheModel.ExoNetStack);
                 _currentPageViewModel.UpdateUI(TheModel.TodayStatus.ToString());
             }
             
@@ -492,7 +492,7 @@ namespace xomanufacture
                 }
             }
             MacRes = TheModel.MacPoolList[0].NextAvailable.ToString();
-            PhyMacAddr.increment(TheModel.MacPoolList[0].NextAvailable);
+            PhyMacAddr.increment(TheModel.MacPoolList[0]);
             return MacRes;
 
         }

@@ -136,18 +136,19 @@ namespace xomanufacture
             // walk the queue and find the next ready EN and 
             // (a ready en is one that has passed the teststatus and readypending==true)
             //return its index
-            int index = 0;
-            for (index = 0; index < ExoNetStack.Count; index++)
+            int retindex = -1;
+            for (int index = 0; index < ExoNetStack.Count; index++)
             {
                 if (ExoNetStack[index].Alive == true)
                 {
                     if (ExoNetStack[index].PingTestStatus == true && ExoNetStack[index].ReadyPending == true)
                     {
+                        retindex = index;
                         break;
                     }
                 }
             }
-            return index;
+            return retindex;
         }
 
         //Make a slot dead
@@ -951,9 +952,9 @@ namespace xomanufacture
 
     static class PhyMacAddr 
     {
-        public static MacAddress increment(MacAddress lv)
+        public static void increment(MacAddPool lv)
         {
-            return new MacAddress((UInt48)(lv.ToValue() + 1));
+            lv.NextAvailable =  new MacAddress((UInt48)(lv.NextAvailable.ToValue() + 1));
         }
     }
 

@@ -60,6 +60,8 @@ namespace xomanufacture
        {
            // call the object.functionns to walk the list, pick the next ready EN and
            TopIndex = TheController.PickNextUT();
+           if (TopIndex == -1)
+               return;
            UpdateUI(" New ExoNet DUT ");
 
            // send shine_flasher by just setting ShinePending=true
@@ -144,6 +146,7 @@ namespace xomanufacture
                        ReflectUIStack[i].Light1 = Brushes.Gray;
                        ReflectUIStack[i].Light2 = Brushes.Gray;
                        ReflectUIStack[i].Light3 = Brushes.Gray;
+                       ReflectUIStack[i].Visibility = 0.3;
                        continue;
                    }
                    if (TheController.ReturnSvcdStatus(i))

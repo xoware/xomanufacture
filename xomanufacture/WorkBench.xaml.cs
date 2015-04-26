@@ -140,7 +140,10 @@ namespace xomanufacture
                     DUTStackPanel[i].Status.Text = Reflection[i].Status;
                     DUTStackPanel[i].ENBox.Opacity = Reflection[i].Visibility;
                 }
-                WorkBox.Text = e.PropertyName;
+                char[] localdelim = {'|'};
+                var StatusWorkCombo = e.PropertyName.Split(localdelim, 2);
+                WorkBox.Text = StatusWorkCombo[0];
+                StatBlock.Text = StatusWorkCombo[1];
 
             });
         }
