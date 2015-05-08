@@ -73,10 +73,7 @@ namespace xomanufacture
         private void ClickedPrintAction(object _parameter)
         {
             // do the printing and then: Save the token
-            int i = 10000;
-            TestIOToken = "5-";
-            TestIOToken += TheController.GetRunDate();
-            TestIOToken += i.ToString();
+            TestIOToken = TheController.GetRunDate();
             LabelPrinter.PrintLabel(TestIOToken, TestIOToken);
             BCScanObject.FireEnableEvent(PostScanHook);
 	    // update the message

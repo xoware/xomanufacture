@@ -63,7 +63,7 @@ namespace xomanufacture
            TopIndex = TheController.PickNextUT();
            if (TopIndex == -1)
                return;
-           UpdateUI(" New ExoNet DUT ");
+           UpdateUI("     ====== New ExoNet DUT ======");
 
            // send shine_flasher by just setting ShinePending=true
            TheController.SetShinePending(TopIndex);
@@ -86,6 +86,8 @@ namespace xomanufacture
                });
            }
            //Error if the execution gets here
+           UpdateUI("     ------> CLICK NEXT/RESET TO CONTINUE <------");
+
        }
 
        public void PostScanHook(String ScanValue)
@@ -104,6 +106,10 @@ namespace xomanufacture
                LastLabel.Split(delim, StringSplitOptions.RemoveEmptyEntries)[0], 
                LastLabel.Split(delim, StringSplitOptions.RemoveEmptyEntries)[1]
                );
+           LabelPrinter.PrintLabel(
+                LastLabel.Split(delim, StringSplitOptions.RemoveEmptyEntries)[0],
+                LastLabel.Split(delim, StringSplitOptions.RemoveEmptyEntries)[1]
+                );
        }
 
        public ICommand PauseCommand
@@ -118,6 +124,10 @@ namespace xomanufacture
            //reprint last label here
            //get information about TopIndex and reprint the label
            char[] delim = { '|' };
+           LabelPrinter.PrintLabel(
+                LastLabel.Split(delim, StringSplitOptions.RemoveEmptyEntries)[0],
+                LastLabel.Split(delim, StringSplitOptions.RemoveEmptyEntries)[1]
+                );
            LabelPrinter.PrintLabel(
                 LastLabel.Split(delim, StringSplitOptions.RemoveEmptyEntries)[0],
                 LastLabel.Split(delim, StringSplitOptions.RemoveEmptyEntries)[1]
@@ -147,7 +157,7 @@ namespace xomanufacture
                        ReflectUIStack[i].Light1 = Brushes.Gray;
                        ReflectUIStack[i].Light2 = Brushes.Gray;
                        ReflectUIStack[i].Light3 = Brushes.Gray;
-                       ReflectUIStack[i].Visibility = 0.3;
+                       ReflectUIStack[i].Visibility = 0.5;
                        continue;
                    }
                    if (TheController.ReturnSvcdStatus(i))
@@ -169,20 +179,24 @@ namespace xomanufacture
                        ReflectUIStack[i].Light1 = Brushes.Green;
                        ReflectUIStack[i].Light2 = Brushes.Green;
                        ReflectUIStack[i].Light3 = Brushes.Green;
-                       LabelBox = "Scanning";
+                       LabelBox = "     ------> CLICK SCAN AND USE THE SCANNER TO SCAN THE PCB BARCODE TO CONTINUE <------";
+                       LabelBox += Environment.NewLine;
+                       LabelBox += "Scanning";
                        ReflectUIStack[i].Visibility = 1;
                        ReflectUIStack[i].Status = "Ready for Labeling";
                        if (TheController.ReturnBarCode(i) != "")
                        {
                            ReflectUIStack[i].Status = "Scanned";
                            LabelBox = "     BarCode Scanned : " + TheController.ReturnBarCode(i) + "     MAC : " + TheController.ReturnEtherMac(i);
+                           LabelBox += Environment.NewLine;
+                           LabelBox += "Printed";
                        }
                        if (TheController.ReturnBlinkingStatus(i))
                            ReflectUIStack[i].Status = "BLINKING : APPLY LABEL";
                    }
                    else
                    {
-                       ReflectUIStack[i].Visibility = 0.3;
+                       ReflectUIStack[i].Visibility = 0.5;
                    }
                }
                String StatString = LabelBox + "|" + _status;

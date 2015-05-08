@@ -57,7 +57,7 @@ namespace xomanufacture
                 DUTStackPanel[i].Light2.Fill = Brushes.Gray;
                 DUTStackPanel[i].Light3.Fill = Brushes.Gray;
                 DUTStackPanel[i].Status.Text = "Not Connected";
-                DUTStackPanel[i].ENBox.Opacity = 0.3;
+                DUTStackPanel[i].ENBox.Opacity = 0.5;
             }
 
         }
@@ -140,10 +140,23 @@ namespace xomanufacture
                     DUTStackPanel[i].Status.Text = Reflection[i].Status;
                     DUTStackPanel[i].ENBox.Opacity = Reflection[i].Visibility;
                 }
-                char[] localdelim = {'|'};
-                var StatusWorkCombo = e.PropertyName.Split(localdelim, 2);
-                WorkBox.Text = StatusWorkCombo[0];
-                StatBlock.Text = StatusWorkCombo[1];
+                if (e.PropertyName.Contains("NEXT/RESET"))
+                {
+                    WorkBox.Text = e.PropertyName;
+                }
+                if (e.PropertyName.Contains("New ExoNet"))
+                {
+                    WorkBox.Text = e.PropertyName;
+                }
+                else
+                {
+                    char[] localdelim = { '|' };
+                    var StatusWorkCombo = e.PropertyName.Split(localdelim, 2);
+                    WorkBox.Text += Environment.NewLine;
+                    if (!WorkBox.Text.Contains(StatusWorkCombo[0]))
+                        WorkBox.Text += StatusWorkCombo[0];
+                    StatBlock.Text = StatusWorkCombo[1];
+                }
 
             });
         }
