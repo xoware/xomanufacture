@@ -214,14 +214,18 @@ namespace xomanufacture
             // save values of adapter1
             // save values of adapter2
             // save macpoollist
-            String coname = PathName + @"\xomanuf.conf";
-            File.Delete(coname);
-            File.AppendAllText("ADAPTER1#" + Adapter1, coname + Environment.NewLine);
-            File.AppendAllText("ADAPTER2#" + Adapter2, coname + Environment.NewLine);
-            for (int index=0; index < MacPoolList.Count; index++)
+            Object SaveLock = new Object();
+            lock (SaveLock)
             {
-                MacAddPool IterMAC = MacPoolList[index];
-                File.AppendAllText(coname, "MACPOOL"+index.ToString()+"="+IterMAC.ToString() + Environment.NewLine);
+                String coname = PathName + @"\xomanuf.conf";
+                File.Delete(coname);
+                File.AppendAllText(coname, "ADAPTER1#" + Adapter1 + Environment.NewLine);
+                File.AppendAllText(coname, "ADAPTER2#" + Adapter2 + Environment.NewLine);
+                for (int index = 0; index < MacPoolList.Count; index++)
+                {
+                    MacAddPool IterMAC = MacPoolList[index];
+                    File.AppendAllText(coname, "MACPOOL" + index.ToString() + "=" + IterMAC.ToString() + Environment.NewLine);
+                }
             }
         }
 
@@ -1012,6 +1016,8 @@ namespace xomanufacture
     class StatusBar
     {
         public Int32 DayRunCount;
+        private Int16 _DaySerial;
+        private Object l_DaySerial;
         public String BadRunCount;
         //"X:Y" Unclaimed,Snooped:Served
         public Int16 CurrentlyConnected;
@@ -1042,6 +1048,26 @@ namespace xomanufacture
             CurrentlyConnected = 0;
             CurrentlyReady = 0;
             BadRunCount = "X:Y";
+            _DaySerial = 0;
+            l_DaySerial = new Object();
+        }
+
+        public Int16 DaySerial
+        {
+            get
+            {
+                lock (l_DaySerial)
+                {
+                    return _DaySerial;
+                }
+            }
+            set
+            {
+                lock (l_DaySerial)
+                {
+                    _DaySerial = value;
+                }
+            }
         }
 
         // add tostring and fromstring
@@ -1049,10 +1075,10 @@ namespace xomanufacture
         {
             //format: 'Start#00:11:22:33:44:55|End#00:11:22:33:44:55|Next#00:11:22:33:44:55'
             FileLine = FileLine.Trim();
-            String[] DelimArray = {"DayRunCount#","BadRunCount#","CurrentlyConnected#","CurrentlyReady#"};
+            String[] DelimArray = {"DayRunCount#","DaySerial#","CurrentlyConnected#","CurrentlyReady#"};
             var StringPieces = FileLine.Split(DelimArray, 4,  StringSplitOptions.RemoveEmptyEntries);
             DayRunCount = Int32.Parse(StringPieces[0].Trim('|'));
-            BadRunCount = StringPieces[1].Trim('|');
+            _DaySerial = Int16.Parse(StringPieces[1].Trim('|'));
             CurrentlyConnected = Int16.Parse(StringPieces[1].Trim('|'));
             CurrentlyReady = Int16.Parse(StringPieces[1].Trim('|'));
 
@@ -1061,7 +1087,7 @@ namespace xomanufacture
         public override String ToString()
         {
             String FileLine = "DayRunCount#" + DayRunCount.ToString() + "|"
-                                + "BadRunCount#" + BadRunCount.ToString() + "|"
+                                + "DaySerial#" + DaySerial.ToString() + "|"
                                 + "CurrentlyConnected#" + CurrentlyConnected.ToString() + "|"
                                 + "CurrentlyReady#" + CurrentlyReady.ToString();
             return FileLine;
@@ -1343,8 +1369,9 @@ namespace xomanufacture
                 //typeset barcode
                 TypeSetLine("S/N: " + sr_no, "Consolas", 8, 20, 180);
 
+                String TrimAddr = mac_addr.Replace(":", "");
                 var MacBarRect = new Rect(20, 105, 160, 30);
-                BarcodeDraw.Draw(LabelContext, mac_addr, new BarcodeMetrics1d(1, 2, 30), MacBarRect);
+                BarcodeDraw.Draw(LabelContext, TrimAddr, new BarcodeMetrics1d(1, 2, 30), MacBarRect);
 
                 var SrNoRect = new Rect(20, 155, 160, 25);
                 BarcodeDraw.Draw(LabelContext, sr_no, new BarcodeMetrics1d(1, 2, 30), SrNoRect);

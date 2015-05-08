@@ -52,7 +52,7 @@ namespace xomanufacture
 
         private static void SetRunDate()
         {
-            AModel.TodaysDate = DateTime.Now.ToString("yyMMdd");
+            AModel.TodaysDate = DateTime.Now.ToString("yyMMddhhmmss");
             AModel.StartTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
         }
         private static void SetEndDate()
@@ -493,6 +493,8 @@ namespace xomanufacture
             }
             MacRes = TheModel.MacPoolList[0].NextAvailable.ToString();
             PhyMacAddr.increment(TheModel.MacPoolList[0]);
+            //save the conf file
+            TheModel.SaveConFile();
             return MacRes;
 
         }
@@ -501,7 +503,8 @@ namespace xomanufacture
             // generate serial number by using date and dailycount.
             //get dailycount from TheModel.
             //this gets generated completely from date,time and dailyruncount
-            int i = TheModel.TodayStatus.DayRunCount + 10000;
+            int i = TheModel.TodayStatus.DaySerial + 10000;
+            TheModel.TodayStatus.DaySerial++;
 
             String NewNumber = "5-";
             NewNumber += AModel.TodaysDate;

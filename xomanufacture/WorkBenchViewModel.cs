@@ -26,10 +26,11 @@ namespace xomanufacture
             Name = "WorkBench";
             BCScanObject = new BarCodeScanner();
             ReflectUIStack = new List<ReflectUI>(new ReflectUI[16]);
-	    for (int index =0; index < 16; index++)
-	    {
-		ReflectUIStack[index] = new ReflectUI();
-	    }
+            for (int index = 0; index < 16; index++)
+            {
+                ReflectUIStack[index] = new ReflectUI();
+            }
+            TopIndex = -1;
         }
 
        public void StartPageLoad()

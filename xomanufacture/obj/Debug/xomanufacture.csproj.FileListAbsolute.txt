@@ -46,9 +46,3 @@ X:\xomanufacture\xomanufacture\obj\Debug\Interop.NETWORKLIST.dll
 X:\xomanufacture\xomanufacture\obj\Debug\xomanufacture.csproj.ResolveComReference.cache
 X:\xomanufacture\xomanufacture\obj\Debug\xomanufacture.exe
 X:\xomanufacture\xomanufacture\obj\Debug\xomanufacture.pdb
-C:\Users\Saurabh\Desktop\work\xomanufacture\xomanufacture\bin\Debug\xomanufacture.exe.config
-C:\Users\Saurabh\Desktop\work\xomanufacture\xomanufacture\obj\Debug\Interop.NATUPNPLib.dll
-C:\Users\Saurabh\Desktop\work\xomanufacture\xomanufacture\obj\Debug\Interop.NETCONLib.dll
-C:\Users\Saurabh\Desktop\work\xomanufacture\xomanufacture\obj\Debug\Interop.NetFwTypeLib.dll
-C:\Users\Saurabh\Desktop\work\xomanufacture\xomanufacture\obj\Debug\Interop.NETWORKLIST.dll
-C:\Users\Saurabh\Desktop\work\xomanufacture\xomanufacture\obj\Debug\xomanufacture.csproj.ResolveComReference.cache
