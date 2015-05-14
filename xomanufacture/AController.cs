@@ -426,7 +426,7 @@ namespace xomanufacture
             //snoop on both interfaces and snooping for:
             // macs and ips associated with them
             // ping responses only from 2nd interface and the mac it came from.
-            String Intf1BPF = "udp and dst 169.254.254.254 and (dst port 69 or dst port 36969)";
+            String Intf1BPF = "udp and (dst 169.254.254.254 or dst 192.168.137.1) and (dst port 69 or dst port 36969)";
             String Intf2BPF = "icmp and src 192.168.2.1 and dst 192.168.2.254";
             //libpcap object device.name is contains our adapter1 guid.
             libpcapObj FirIntfProc = new libpcapObj(AModel.Adapter1, Intf1Handler, Intf1BPF);
@@ -543,7 +543,7 @@ namespace xomanufacture
             {
                 foreach (ExoNetUT IterUT in TheModel.ExoNetStack)
                 {
-                    if (IterUT.LinkLocalIP == RemoteClient)
+                    if (IterUT.DynamicIP == RemoteClient)
                     {
                         IterUT.ReadyPending = true;
                         if (IterUT.ShinePending == true)
@@ -558,7 +558,7 @@ namespace xomanufacture
             {
                 foreach (ExoNetUT IterUT in TheModel.ExoNetStack)
                 {
-                    if (IterUT.LinkLocalIP == RemoteClient)
+                    if (IterUT.DynamicIP == RemoteClient)
                     {
                         IterUT.BlinkingStatus = true;
                         break;
