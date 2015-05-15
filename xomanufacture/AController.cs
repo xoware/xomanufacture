@@ -47,8 +47,7 @@ namespace xomanufacture
         // 1 thread tied to SignalProtocol to talk the the EnUT(s) 
         // these are descendents of the CtrlThread. 
         private static bool CtrlThreadEnable;
-        private static bool ShutDownBlocked;
-
+        private static bool CleanedUp;
 
         public static String BaseDir;
 
@@ -76,9 +75,9 @@ namespace xomanufacture
             TheModel.PathName = BaseDir;
             SetRunDate();
 
-            MyWindow.Closed += new EventHandler(MainWClosed);
+            MyWindow.Closing += new CancelEventHandler(MainWClosing);
             CtrlThreadEnable = true;
-            ShutDownBlocked = false;
+            CleanedUp = false;
         
             // Add available pages
             PageViewModels.Add(new StartBenchViewModel(this));
@@ -95,14 +94,26 @@ namespace xomanufacture
             CurrentPageViewModel = PageViewModels[0];
             
         }
-        void MainWClosed(object sender, EventArgs e)
+        public void MainWClosing(object sender, CancelEventArgs e)
         {
-            ShutMeDown();
+            if (!CleanedUp)
+            {
+                e.Cancel = true;
+            }
+            CtrlThreadEnable = false;
+        }
+        private static void ShutMeDown()
+        {
+            TheModel.UploadLog();
+            CleanedUp = true;
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                App.Current.Shutdown();
+            });
         }
 
         public static void CtrlThreadFunc()
         {
-            ShutDownBlocked = true;
             //instantiate  the other threads
             Thread PcapThread = new Thread(new ThreadStart(PcapThreadFunc));
             Thread TftpThread = new Thread(new ThreadStart(TftpdThreadFunc));
@@ -129,10 +140,10 @@ namespace xomanufacture
                 LabelStatus.LabelBox = "";
                 _currentPageViewModel.UpdateUI(LabelStatus);
             }
-            ShutDownBlocked = false;
-            PcapThread.Join();
-            TftpThread.Join();
-            SignalPThread.Join();
+            PcapThread.Abort();
+            TftpThread.Abort();
+            SignalPThread.Abort();
+            ShutMeDown();
         }
 
         public bool IsUserAdministrator()
@@ -665,17 +676,6 @@ namespace xomanufacture
             }
         }
 
-        public void ShutMeDown()
-        {
-            CtrlThreadEnable = false;
-            while (ShutDownBlocked)
-            {
-                System.Threading.Thread.Sleep(1000);
-                // spinlock till signalled
-            }
-            TheModel.UploadLog();
-            App.Current.Shutdown();
-        }
 
         public int PickNextUT()
         {
@@ -799,7 +799,7 @@ namespace xomanufacture
             }
             if (Parameter == "Exit")
             {
-                this.TheController.ShutMeDown();
+                this.TheController.MainWClosing(new Object(), new CancelEventArgs());
             } 
         }
     }

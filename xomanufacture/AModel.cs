@@ -321,7 +321,7 @@ namespace xomanufacture
         {
             String ProcName = PathName + @"\pscp.exe";
             String ProcArgs = @" -pw Designed&AssembledInCalifornia2229 " +
-                               @" -hostkey ab:f4:6d:e4:d9:cd:c9:af:0a:1b:41:f1:25:59:9e:d8 " + PArgs;
+                               @" -hostkey  be:78:c7:80:b2:e2:30:4d:79:0b:2f:a3:72:2c:45:bf -scp " + PArgs;
             Process uproc = new Process();
             uproc.StartInfo.FileName = ProcName;
             uproc.StartInfo.Arguments = ProcArgs;
@@ -376,11 +376,12 @@ namespace xomanufacture
                     File.Delete(nameb);
                     File.Delete(nameb + ".old");
 
-                    String ProcArgs = ZipName + @" xomanuf@ns2.vpex.org:/home/xomanuf/" + StationName +
-                                        @"_rundone_" + TodaysDate + @".zip ";
+                    String ProcArgs = ZipName + @" xomanuf@ns2.vpex.org:/incoming/" + StationName +
+                                         @"_rundone_" + TodaysDate + @".zip ";
 		            upSuccess = RunPscp(ProcArgs);
                     if (upSuccess)
                     {
+                        File.Delete(ZipName + "sent");
                         File.Move(ZipName, ZipName + "sent");
                     }
 
@@ -405,12 +406,13 @@ namespace xomanufacture
                 {
                     if (file.Contains("rundone") && !file.Contains("sent"))
                     {
-                        String ProcArgs = file + @" xomanuf@ns2.vpex.org:/home/xomanuf/" + StationName +
+                        String ProcArgs = file + @" xomanuf@ns2.vpex.org:/incoming/" + StationName +
                                          @"_" + Path.GetFileName(file); 
 			            upSuccess = RunPscp(ProcArgs);
 
                         if (upSuccess)
                         {
+                            File.Delete(file + "sent");
                             File.Move(file, file + "sent");
                         }
                     }
@@ -473,6 +475,7 @@ namespace xomanufacture
                         {
                             index++;
                         }
+                        File.Delete(namedone + index.ToString());
                         File.Move(namedone, namedone + index.ToString());
                         UploadLog();
                         //set reply true
@@ -509,6 +512,7 @@ namespace xomanufacture
                         {
                             index++;
                         }
+                        File.Delete(namedated + index.ToString());
                         File.Move(namedated, namedated + index.ToString());
                         UploadLog();
                         //set reply true
