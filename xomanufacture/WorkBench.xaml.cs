@@ -109,7 +109,7 @@ namespace xomanufacture
                 DeactivateScanAcquire();
                 ScanButton.Background = Brushes.LightGray;
                 ScanButton.IsEnabled = false;
-                WorkBox.Text = e.PropertyName;
+                //WorkBox.Text = e.PropertyName;
                 //MessageBox.Show(e.PropertyName);
             }
             if (ScanCom == "EnableScan")
@@ -122,6 +122,7 @@ namespace xomanufacture
         {
             //Routine update the property elements
             List<ReflectUI> Reflection = sender as List<ReflectUI>;
+            StatusLabelCombo LabelStatus = new StatusLabelCombo(e.PropertyName);
 
 	    // absolutely make sure that we are in ui threead that
 	    // owns the DUTStackPanel controls. the closure(sender and e)
@@ -140,22 +141,20 @@ namespace xomanufacture
                     DUTStackPanel[i].Status.Text = Reflection[i].Status;
                     DUTStackPanel[i].ENBox.Opacity = Reflection[i].Visibility;
                 }
-                if (e.PropertyName.Contains("NEXT/RESET"))
+                if (LabelStatus.LabelBox.Contains("Preparing Next Available ExoNet"))
                 {
-                    WorkBox.Text = e.PropertyName;
-                }
-                if (e.PropertyName.Contains("New ExoNet"))
-                {
-                    WorkBox.Text = e.PropertyName;
+                    WorkBox.Text = LabelStatus.LabelBox;
                 }
                 else
                 {
-                    char[] localdelim = { '|' };
-                    var StatusWorkCombo = e.PropertyName.Split(localdelim, 2);
-                    WorkBox.Text += Environment.NewLine;
-                    if (!WorkBox.Text.Contains(StatusWorkCombo[0]))
-                        WorkBox.Text += StatusWorkCombo[0];
-                    StatBlock.Text = StatusWorkCombo[1];
+                    if (!WorkBox.Text.Contains(LabelStatus.LabelBox))
+                    {
+                        WorkBox.Text += LabelStatus.LabelBox;
+                    }
+                    if (LabelStatus.Status != "")
+                    {
+                        StatBlock.Text = LabelStatus.Status;
+                    }
                 }
 
             });

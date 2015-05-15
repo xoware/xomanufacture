@@ -113,7 +113,10 @@ namespace xomanufacture
                 TheModel.SaveInFlight();
                 //call to update the view.
                 TheModel.TodayStatus.UpdateStatus(TheModel.ExoNetStack);
-                _currentPageViewModel.UpdateUI(TheModel.TodayStatus.ToString());
+                StatusLabelCombo LabelStatus = new StatusLabelCombo();
+                LabelStatus.Status = TheModel.TodayStatus.ToString();
+                LabelStatus.LabelBox = "";
+                _currentPageViewModel.UpdateUI(LabelStatus);
             }
             
         }
@@ -758,7 +761,7 @@ namespace xomanufacture
             TheController.ResetContentRenderedDele(StartPageGeneric);
         }
 
-        public virtual void UpdateUI(String _stat) { return; }
+        public virtual void UpdateUI(StatusLabelCombo _stat) { return; }
         
         public ICommand ChangePageCommand
         {

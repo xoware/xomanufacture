@@ -356,7 +356,6 @@ namespace xomanufacture
             String coname = PathName + @"\xomanuf.conf";
 	    bool upSuccess;
 
-            ZipArchive zarch = ZipFile.Open(ZipName, ZipArchiveMode.Create);
             if (File.Exists(nameb))
             {
                 if (File.Exists(namedone))
@@ -368,8 +367,11 @@ namespace xomanufacture
                     File.AppendAllLines(namedone, templinearray);
                     File.Move(namedone, namedated);
 
-                    zarch.CreateEntryFromFile(namedated, "rundone_" + TodaysDate + ".txt", CompressionLevel.Fastest);
-                    zarch.CreateEntryFromFile(nameb, "inflight.txt", CompressionLevel.Fastest);
+                    using (ZipArchive zarch = ZipFile.Open(ZipName, ZipArchiveMode.Create))
+                    {
+                        zarch.CreateEntryFromFile(namedated, "rundone_" + TodaysDate + ".txt", CompressionLevel.Fastest);
+                        zarch.CreateEntryFromFile(nameb, "inflight.txt", CompressionLevel.Fastest);
+                    }
 
                     File.Delete(nameb);
                     File.Delete(nameb + ".old");
@@ -1448,5 +1450,45 @@ namespace xomanufacture
             Message = " ";
         }
     }
- 
+
+    class StatusLabelCombo
+    {
+        public String Status;
+        public String LabelBox;
+        public StatusLabelCombo()
+        {
+            Status = "";
+            LabelBox = "";
+        }
+        public StatusLabelCombo(String FromString)
+        {
+
+
+            string[] stringSeparators = new string[] { "#]%[#" };
+            string[] result;
+
+
+            // Split a string delimited by another string and return all elements.
+            result = FromString.Split(stringSeparators, StringSplitOptions.None);
+            if (result.Length == 1)
+            {
+                Status = result[0];
+                LabelBox = "";
+            }
+            else if (result.Length == 2)
+            {
+                Status = result[0];
+                LabelBox = result[1];
+            }
+            else
+            {
+                Status = "";
+                LabelBox = "";
+            }
+        }
+        public override string ToString()
+        {
+            return Status + "#]%[#" + LabelBox;
+        }
+    }
 }
