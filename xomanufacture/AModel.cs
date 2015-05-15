@@ -1036,10 +1036,10 @@ namespace xomanufacture
                 if (IterUT.Alive == true)
                 {
                     CurrentlyConnected++;
-                }
-                if (IterUT.PingTestStatus == true && IterUT.ReadyPending == true)
-                {
-                    CurrentlyReady++;
+                    if (IterUT.PingTestStatus == true && IterUT.ReadyPending == true)
+                    {
+                        CurrentlyReady++;
+                    }
                 }
             }
         }

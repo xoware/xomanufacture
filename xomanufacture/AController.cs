@@ -46,6 +46,8 @@ namespace xomanufacture
         // 1 thread tied to controlling the  Opentftpd instance and updating list for that data
         // 1 thread tied to SignalProtocol to talk the the EnUT(s) 
         // these are descendents of the CtrlThread. 
+        private static bool CtrlThreadEnable;
+        private static bool ShutDownBlocked;
 
 
         public static String BaseDir;
@@ -74,6 +76,10 @@ namespace xomanufacture
             TheModel.PathName = BaseDir;
             SetRunDate();
 
+            MyWindow.Closed += new EventHandler(MainWClosed);
+            CtrlThreadEnable = true;
+            ShutDownBlocked = false;
+        
             // Add available pages
             PageViewModels.Add(new StartBenchViewModel(this));
             PageViewModels.Add(new WorkBenchViewModel(this));
@@ -89,9 +95,14 @@ namespace xomanufacture
             CurrentPageViewModel = PageViewModels[0];
             
         }
+        void MainWClosed(object sender, EventArgs e)
+        {
+            ShutMeDown();
+        }
 
         public static void CtrlThreadFunc()
         {
+            ShutDownBlocked = true;
             //instantiate  the other threads
             Thread PcapThread = new Thread(new ThreadStart(PcapThreadFunc));
             Thread TftpThread = new Thread(new ThreadStart(TftpdThreadFunc));
@@ -104,7 +115,7 @@ namespace xomanufacture
             // keep saving in-flight by calling 
             // SaveToFile(inflight.txt)
             // within that loop
-            while (true)
+            while (CtrlThreadEnable)
             {
                 Ping Pong = new Ping();
                 int timeout = 1;
@@ -118,7 +129,10 @@ namespace xomanufacture
                 LabelStatus.LabelBox = "";
                 _currentPageViewModel.UpdateUI(LabelStatus);
             }
-            
+            ShutDownBlocked = false;
+            PcapThread.Join();
+            TftpThread.Join();
+            SignalPThread.Join();
         }
 
         public bool IsUserAdministrator()
@@ -653,7 +667,12 @@ namespace xomanufacture
 
         public void ShutMeDown()
         {
-            //somestuff
+            CtrlThreadEnable = false;
+            while (ShutDownBlocked)
+            {
+                System.Threading.Thread.Sleep(1000);
+                // spinlock till signalled
+            }
             TheModel.UploadLog();
             App.Current.Shutdown();
         }

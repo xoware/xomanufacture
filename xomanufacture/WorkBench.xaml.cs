@@ -153,7 +153,7 @@ namespace xomanufacture
                     }
                     if (LabelStatus.Status != "")
                     {
-                        StatBlock.Text = LabelStatus.Status;
+                        StatBlock.Text = LabelStatus.Status.Replace("#", ": ").Replace("|", "   |   ");
                     }
                 }
 
