@@ -407,23 +407,31 @@ namespace xomanufacture
             foreach (ExoNetUT myut in Lref) {
                 if (myut.DynamicMac == SrcMac || myut.EtherMac1 == SrcMac)
                 {
-                    if (SrcIp.Contains("169.254"))
+                    if (SrcIp.Contains("169.254.254"))
                         myut.LinkLocalIP = SrcIp;
-                    if (SrcIp.Contains("192.168"))
+                    if (SrcIp.Contains("192.168.137"))
                         myut.DynamicIP = SrcIp;
                     foundit = true;
                 }
             }
             if (!foundit)
             {
-                //we can test if the srcmac falls out of the coded mac range in nor.img and
-                //srcip is not in 169.254.254.0/24 range then we cant proceed with the following addition.
-                //or should we?? (overlook the error condition??)
-                //if we want to overlook then we just test if it is in the range of allocation pool and 
-                //do the addition to the DynamicIP,EtherMac1.
-                ExoNetUT NewUT = TheModel.ExoNetStack[TheModel.NewSlot()];
-                NewUT.DynamicMac = SrcMac;
-                NewUT.LinkLocalIP = SrcIp;
+                //we  test if the srcmac falls out of the coded mac range in nor.img and
+                //and srcip  is within known range and proceed with the following addition.
+                if (SrcIp.Contains("169.254.254") || SrcIp.Contains("192.168.137"))
+                {
+                    ExoNetUT NewUT = TheModel.ExoNetStack[TheModel.NewSlot()];
+                    if (SrcMac.Contains("AA:BB:"))
+                    {
+                        NewUT.DynamicMac = SrcMac;
+                        NewUT.LinkLocalIP = SrcIp;
+                    }
+                    else
+                    {
+                        NewUT.EtherMac1 = SrcMac;
+                        NewUT.DynamicIP = SrcIp;
+                    }
+                }
             }
         }
         private static void Intf2Handler(Packet packet)
