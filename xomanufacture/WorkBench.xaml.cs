@@ -111,6 +111,7 @@ namespace xomanufacture
                 ScanButton.IsEnabled = false;
                 //WorkBox.Text = e.PropertyName;
                 //MessageBox.Show(e.PropertyName);
+                NextButton.IsEnabled = true;
             }
             if (ScanCom == "EnableScan")
             {
@@ -141,9 +142,10 @@ namespace xomanufacture
                     DUTStackPanel[i].Status.Text = Reflection[i].Status;
                     DUTStackPanel[i].ENBox.Opacity = Reflection[i].Visibility;
                 }
-                if (LabelStatus.LabelBox.Contains("Preparing Next Available ExoNet"))
+                if (LabelStatus.LabelBox.Contains("Finding Next Ready Board"))
                 {
                     WorkBox.Text = LabelStatus.LabelBox;
+                    NextButton.IsEnabled = false;
                 }
                 else
                 {

@@ -160,7 +160,10 @@ namespace xomanufacture
             File.AppendAllText(FileName, ExoNetStack[index].ToString() + Environment.NewLine);
             lock (CriticalSection)
             {
-                ExoNetStack[index].Alive = false;
+                //ExoNetStack[index].Alive = false;
+                //dont kill here but after the next is pressed. since 
+                //it becomes a ghost alive if recycled here, since its still blinking
+                //moving this to DoneNext(...)
                 ExoNetStack[index].LabeledStatus = true;
             }
             TodayStatus.DayRunCount++;
@@ -375,6 +378,7 @@ namespace xomanufacture
 
                     File.Delete(nameb);
                     File.Delete(nameb + ".old");
+                    File.Delete(namedated);
 
                     String ProcArgs = ZipName + @" xomanuf@ns2.vpex.org:/incoming/" + StationName +
                                          @"_rundone_" + TodaysDate + @".zip ";
@@ -497,7 +501,7 @@ namespace xomanufacture
                         return reply;
                     }
                 }
-                else if (File.Exists(namedated))
+                else if (File.Exists(namedated))   //sufficient resolution in date, this is no longer possible
                 {
                     String[] templines = File.ReadAllLines(namedated);
                     if (templines[templines.Count() - 1].Contains("MACPOOL") ||

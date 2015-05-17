@@ -48,6 +48,7 @@ namespace xomanufacture
         // these are descendents of the CtrlThread. 
         private static bool CtrlThreadEnable;
         private static bool CleanedUp;
+        private static bool CtrlThreadStarted;
 
         public static String BaseDir;
 
@@ -78,6 +79,7 @@ namespace xomanufacture
             MyWindow.Closing += new CancelEventHandler(MainWClosing);
             CtrlThreadEnable = true;
             CleanedUp = false;
+            CtrlThreadStarted = false;
         
             // Add available pages
             PageViewModels.Add(new StartBenchViewModel(this));
@@ -99,6 +101,10 @@ namespace xomanufacture
             if (!CleanedUp)
             {
                 e.Cancel = true;
+                if (!CtrlThreadStarted)
+                {
+                    ShutMeDown();
+                }
             }
             CtrlThreadEnable = false;
         }
@@ -110,10 +116,12 @@ namespace xomanufacture
             {
                 App.Current.Shutdown();
             });
+            Process.GetCurrentProcess().Kill();
         }
 
         public static void CtrlThreadFunc()
         {
+            CtrlThreadStarted = true;
             //instantiate  the other threads
             Thread PcapThread = new Thread(new ThreadStart(PcapThreadFunc));
             Thread TftpThread = new Thread(new ThreadStart(TftpdThreadFunc));
@@ -405,13 +413,16 @@ namespace xomanufacture
 
             bool foundit = false; 
             foreach (ExoNetUT myut in Lref) {
-                if (myut.DynamicMac == SrcMac || myut.EtherMac1 == SrcMac)
+                if (myut.Alive == true)
                 {
-                    if (SrcIp.Contains("169.254.254"))
-                        myut.LinkLocalIP = SrcIp;
-                    if (SrcIp.Contains("192.168.137"))
-                        myut.DynamicIP = SrcIp;
-                    foundit = true;
+                    if (myut.DynamicMac == SrcMac || myut.EtherMac1 == SrcMac)
+                    {
+                        if (SrcIp.Contains("169.254.254"))
+                            myut.LinkLocalIP = SrcIp;
+                        if (SrcIp.Contains("192.168.137"))
+                            myut.DynamicIP = SrcIp;
+                        foundit = true;
+                    }
                 }
             }
             if (!foundit)
@@ -442,7 +453,7 @@ namespace xomanufacture
             bool foundit = false;
             foreach (ExoNetUT myut in Lref)
             {
-                if (myut.EtherMac2 == SrcMac)
+                if (myut.EtherMac2 == SrcMac && myut.Alive == true)
                 {
                     myut.PingTestStatus = true;
                     foundit = true;
@@ -489,7 +500,7 @@ namespace xomanufacture
             bool foundit = false;
             foreach (ExoNetUT myut in Lref)
             {
-                if (AddToList.Contains(myut.LinkLocalIP))  //also add that it doesnt contain failure message(?necessary?)
+                if (AddToList.Contains(myut.LinkLocalIP) && myut.Alive == true)  //also add that it doesnt contain failure message(?necessary?)
                 {
                     myut.BootPhase = 0;
                 }
@@ -557,7 +568,7 @@ namespace xomanufacture
                 //find the ExoNetUT object
                 foreach (ExoNetUT IterUT in TheModel.ExoNetStack)
                 {
-                    if (IterUT.LinkLocalIP == RemoteClient)
+                    if (IterUT.LinkLocalIP == RemoteClient && IterUT.Alive == true)
                     {
                         String MySrNumber = GenerateSerialNumber();
                         String MyMacNumber1 = ObtainMacRes();
@@ -579,7 +590,7 @@ namespace xomanufacture
             {
                 foreach (ExoNetUT IterUT in TheModel.ExoNetStack)
                 {
-                    if (IterUT.DynamicIP == RemoteClient)
+                    if (IterUT.DynamicIP == RemoteClient && IterUT.Alive == true)
                     {
                         IterUT.ReadyPending = true;
                         if (IterUT.ShinePending == true)
@@ -594,7 +605,7 @@ namespace xomanufacture
             {
                 foreach (ExoNetUT IterUT in TheModel.ExoNetStack)
                 {
-                    if (IterUT.DynamicIP == RemoteClient)
+                    if (IterUT.DynamicIP == RemoteClient && IterUT.Alive == true)
                     {
                         IterUT.BlinkingStatus = true;
                         break;
@@ -714,6 +725,15 @@ namespace xomanufacture
         {
             return TheModel.ExoNetStack[UnitIndex].LabeledStatus;
         }
+        public void ClearLabeledStatus(int UnitIndex)
+        {
+            TheModel.ExoNetStack[UnitIndex].LabeledStatus = false;
+        }
+        public void ReCycle(int UnitIndex)
+        {
+            TheModel.ExoNetStack[UnitIndex].Alive = false;
+        }
+
 
         public bool ReturnSvcdStatus(int UnitIndex)
         {

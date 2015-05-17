@@ -54,33 +54,43 @@ namespace xomanufacture
        {
            get
            {
-               return new RelayCommand(NextOReset);
+               return new RelayCommand(DoneNext);
            }
        }
-       private void NextOReset(object Parameter)
+       private void DoneNext(object Parameter)
        {
+           if (TopIndex != -1)
+           {
+               // order is important first clear label, then clear alive and giveup index
+               TheController.ClearLabeledStatus(TopIndex);
+               TheController.ReCycle(TopIndex);
+               TopIndex = -1;
+           }
            StatusLabelCombo LabelStatus = new StatusLabelCombo();
-
-           LabelStatus.LabelBox = "====== Preparing Next Available ExoNet ======";
-           LabelStatus.LabelBox += Environment.NewLine;
-           LabelStatus.LabelBox += Environment.NewLine;
-           LabelStatus.LabelBox += "------> Please wait several seconds... <------";
-           LabelStatus.LabelBox += Environment.NewLine;
-           LabelStatus.LabelBox += Environment.NewLine;
-           LabelStatus.LabelBox += Environment.NewLine;
-           LabelStatus.LabelBox += Environment.NewLine;
+           LabelStatus.LabelBox = "====== Finding Next Ready Board ====== ";
            LabelStatus.Status = "";
            UpdateUI(LabelStatus);
-
+       }
+       private String NextOReset()
+       {
+           String LabelBx;
            // call the object.functionns to walk the list, pick the next ready EN and
            TopIndex = TheController.PickNextUT();
            if (TopIndex == -1)
-               return;
+               return "";
+
+           LabelBx = Environment.NewLine;
+           LabelBx += Environment.NewLine;
+           LabelBx += "====== Preparing New Available ExoNet DUT ======";
+           LabelBx += Environment.NewLine;
+           LabelBx += "------> Please wait several seconds... <------";
+           LabelBx += Environment.NewLine;
+           LabelBx += Environment.NewLine;
 
            // send shine_flasher by just setting ShinePending=true
            TheController.SetShinePending(TopIndex);
            ScanEnabled = false;
-
+           return LabelBx;
        }
 
        public void PostScanHook(String ScanValue)
@@ -135,6 +145,11 @@ namespace xomanufacture
        public override void UpdateUI(StatusLabelCombo LabelStatus)
        {
            String LabelBx = "";
+           if (TopIndex == -1)
+           {
+               LabelBx = NextOReset();
+           }
+
            // transcode_copy all the changes from ExonetUIstack to Reflectuistack
            // also status String
            if (UpdateUIEvent != null)
@@ -148,6 +163,8 @@ namespace xomanufacture
                    if (TheController.IsAlive(i))
                    {
                        ReflectUIStack[i].Light1 = Brushes.Red;
+                       ReflectUIStack[i].Light2 = Brushes.Gray;
+                       ReflectUIStack[i].Light3 = Brushes.Gray;
                        ReflectUIStack[i].Status = "Connected";
                    }
                    else
@@ -182,18 +199,23 @@ namespace xomanufacture
 
                        if (TheController.ReturnBlinkingStatus(TopIndex) && !ScanEnabled)
                        {
-                           LabelBx += "====== New ExoNet DUT ======";
+                           LabelBx += "====== New ExoNet DUT *BLINKING* *BLINKING* ======";
                            UIScanEnable();
                            // enable the scan button.
                            LabelBx += Environment.NewLine;
-                           LabelBx += Environment.NewLine;
-                           LabelBx += "------> CLICK SCAN TO CONTINUE <------";
-                           LabelBx += Environment.NewLine;
-                           LabelBx += "then use scanner to scan the pcb barcode";
+                           //LabelBx += "====== *BLINKING* *BLINKING* ======";
+                           //LabelBx += Environment.NewLine;
                            LabelBx += Environment.NewLine;
                            LabelBx += Environment.NewLine;
+
+                           LabelBx += "------> IDENTIFY THE *BLINKING* BOARD <------";
+                           LabelBx += Environment.NewLine;
+                           LabelBx += "------> CLICK [START SCAN] TO CONTINUE <------";
+                           LabelBx += Environment.NewLine;
+                           LabelBx += "then use scanner to scan the pcb barcode of the blinking board";
                            LabelBx += Environment.NewLine;
                            LabelBx += Environment.NewLine;
+                           //LabelBx += Environment.NewLine;
                        }
 
                        if (TheController.ReturnBarCode(i) != "")
@@ -207,14 +229,11 @@ namespace xomanufacture
                            LabelBx += Environment.NewLine;
                            LabelBx += Environment.NewLine;
                            LabelBx += Environment.NewLine;
-                           LabelBx += Environment.NewLine;
-                           LabelBx += Environment.NewLine;
-                           LabelBx += Environment.NewLine;
-                           LabelBx += Environment.NewLine;
-                           LabelBx += Environment.NewLine;
                            LabelBx += "------> DISCONNECT PCB & APPLY LABEL <------";
                            LabelBx += Environment.NewLine;
-                           LabelBx += "------> WHEN DONE CLICK NEXT/RESET TO CONTINUE <------";
+                           LabelBx += "------> WHEN DONE CLICK [NEXT] TO CONTINUE <------";
+                           LabelBx += Environment.NewLine;
+                           LabelBx += "Caution:  DO NOT click NEXT before disconnecting the PCB";
                        }
 
                        if (TheController.ReturnBlinkingStatus(i))
@@ -229,17 +248,14 @@ namespace xomanufacture
                }
                LabelStatus.LabelBox += LabelBx;
 
-               //Dispatcher.CurrentDispatcher.Invoke(() =>
-		// DONT WANT CURRENT DISPATCHER!!! App.Current is UI we will make double
-		// sure of this in the code-behind when handling this event.
-               App.Current.Dispatcher.Invoke(() =>
-               {
-                   UpdateUIEvent(ReflectUIStack, new PropertyChangedEventArgs(LabelStatus.ToString()));
-               });
+               UpdateUIEvent(ReflectUIStack, new PropertyChangedEventArgs(LabelStatus.ToString()));
            }
        }
        private void UIScanEnable()
        {
+           //Dispatcher.CurrentDispatcher.Invoke(() =>
+           // DONT WANT CURRENT DISPATCHER!!! App.Current is UI we will make double
+           // sure of this in the code-behind when handling this event.
            App.Current.Dispatcher.Invoke(() =>
            {
                ScanEnabled = true;

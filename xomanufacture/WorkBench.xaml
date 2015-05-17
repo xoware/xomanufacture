@@ -8,10 +8,9 @@
              mc:Ignorable="d" ScrollViewer.VerticalScrollBarVisibility="Disabled" MinWidth="800" Width="800" MinHeight="600">
 
     <Grid>
-        <Button Name="PauseButton" Content="Reprint Label" Command="{Binding PauseCommand}" HorizontalAlignment="Left" Margin="35,300,0,0" VerticalAlignment="Top" Width="75" />
-        <Button Name="NextButton" Content="Next/Reset" Command="{Binding ResetCommand}" HorizontalAlignment="Left" Margin="35,100,0,0" VerticalAlignment="Top" Width="75" />
-        <Button Name="EndButton" Content="End of Shift" CommandParameter="Exit" Command="{Binding ChangePageCommand}" HorizontalAlignment="Left" Margin="35,350,0,0" VerticalAlignment="Top" Width="75" />
-        <StackPanel Name="DUTViewStack" HorizontalAlignment="Left" Margin="150,75,0,50" Width="175" Background="#FFFFFFEE"  >
+        <Button Name="PauseButton" Content="Reprint Label" Command="{Binding PauseCommand}" HorizontalAlignment="Left" Margin="35,300,0,0" VerticalAlignment="Top" Width="75" Visibility="Hidden" IsEnabled="False"/>
+        <Button Name="EndButton" Content="End of Shift" CommandParameter="Exit" Command="{Binding ChangePageCommand}" HorizontalAlignment="Left" Margin="35,350,0,0" VerticalAlignment="Top" Width="75" Visibility="Hidden" IsEnabled="False"/>
+        <StackPanel Name="DUTViewStack" HorizontalAlignment="Left" Margin="150,75,0,0" Width="175" Background="#FFFFFFEE"  >
 
             
             
@@ -147,11 +146,13 @@
 
 
         </StackPanel>
-        <TextBlock Name="WorkBox" HorizontalAlignment="Left" Height="475" Margin="400,75,0,0" TextWrapping="Wrap" Text="CLICK NEXT/RESET TO CONTINUE" VerticalAlignment="Top" Width="350" Background="White"/>
-        <StatusBar Name="WorkStat" HorizontalAlignment="Center" Height="20" Margin="0,0,0,0" VerticalAlignment="Top" Width="715">
-            <TextBlock HorizontalAlignment="Right" Name="StatBlock" Text="Station Status" />
+        <TextBlock Name="WorkBox" HorizontalAlignment="Left" Height="350" Margin="400,75,0,0" TextWrapping="Wrap" Text="====== Finding Next Ready Board ====== " VerticalAlignment="Top" Width="350" Background="White"/>
+        <StatusBar Name="WorkStat" HorizontalAlignment="Center" Height="20" Margin="0,0,0,0" VerticalAlignment="Top" Width="600">
+            <TextBlock HorizontalAlignment="Right" Name="StatBlock" Text="Station Status" Margin="100,0,0,0" />
         </StatusBar>
         <Image HorizontalAlignment="Left" Height="75" Margin="325,75,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button Name="ScanButton" Content="Scan" HorizontalAlignment="Left" Margin="35,150,0,0" VerticalAlignment="Top" Width="75"  Click="Scan_Start" IsEnabled="False"/>
+        <Button Name="ScanButton" Content="S T A R T       S C A N" FontSize="15" HorizontalAlignment="Left" Margin="400,450,0,0" VerticalAlignment="Top" Width="300"  Click="Scan_Start" IsEnabled="False" Height="35"/>
+        <Button Name="NextButton" Content="N E X T" FontSize="15" Command="{Binding ResetCommand}" HorizontalAlignment="Left" Margin="400,525,0,0" VerticalAlignment="Top" Width="300"   IsEnabled="False" Height="35"/>
+
     </Grid>
 </UserControl>
