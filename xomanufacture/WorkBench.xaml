@@ -152,7 +152,7 @@
         </StatusBar>
         <Image HorizontalAlignment="Left" Height="75" Margin="325,75,0,0" VerticalAlignment="Top" Width="75"/>
         <Button Name="ScanButton" Content="S T A R T       S C A N" FontSize="15" HorizontalAlignment="Left" Margin="400,450,0,0" VerticalAlignment="Top" Width="300"  Click="Scan_Start" IsEnabled="False" Height="35"/>
-        <Button Name="NextButton" Content="N E X T" FontSize="15" Command="{Binding ResetCommand}" HorizontalAlignment="Left" Margin="400,525,0,0" VerticalAlignment="Top" Width="300"   IsEnabled="False" Height="35"/>
+        <Button Name="NextButton" Content="N E X T" FontSize="15" Command="{Binding ResetCommand}" HorizontalAlignment="Left" Margin="400,525,0,0" VerticalAlignment="Top" Width="300" Click="NextButton_Click" IsEnabled="False" Height="35"/>
 
     </Grid>
 </UserControl>

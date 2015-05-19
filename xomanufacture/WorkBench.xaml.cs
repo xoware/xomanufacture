@@ -161,6 +161,13 @@ namespace xomanufacture
 
             });
         }
+
+        private void NextButton_Click(object sender, RoutedEventArgs e)
+        {
+            var btn = sender as Button;
+            NextButton.IsEnabled = false;
+            btn.Command.Execute(btn.CommandParameter);
+        }
     }
     class ENUTPanelPointer
     {

@@ -357,13 +357,12 @@ namespace xomanufacture
             String ZipName = PathName + @"\rundone_" + TodaysDate + @".zip";
             String nameb = PathName + @"\inflight.txt";
             String coname = PathName + @"\xomanuf.conf";
-	    bool upSuccess;
+	        bool upSuccess;
 
             if (File.Exists(nameb))
             {
                 if (File.Exists(namedone))
                 {
-                    SaveConFile();
                     String[] templinearray = File.ReadAllLines(coname);
 
                     File.AppendAllText(namedone, EndTime + Environment.NewLine);
@@ -382,29 +381,15 @@ namespace xomanufacture
 
                     String ProcArgs = ZipName + @" xomanuf@ns2.vpex.org:/incoming/" + StationName +
                                          @"_rundone_" + TodaysDate + @".zip ";
-		            upSuccess = RunPscp(ProcArgs);
+                    upSuccess = RunPscp(ProcArgs);
                     if (upSuccess)
                     {
                         File.Delete(ZipName + "sent");
                         File.Move(ZipName, ZipName + "sent");
                     }
-
-                    string[] files = Directory.GetFiles(PathName);
-                    foreach (string file in files)
-                    {
-                        if (file.Contains("rundone"))
-                        {
-                            FileInfo fi = new FileInfo(file);
-                            if (fi.CreationTime < DateTime.Now.AddMonths(-1))
-                                fi.Delete();
-                        }
-                    }
                 }
             }
-            else
-            {
-                // Last runs delivery didnt happen. 
-                // or this is an error!!! No done log at the end of an entire run!
+                // Check for any outstanding uploads and do it. 
                 string[] files = Directory.GetFiles(PathName);
                 foreach (string file in files)
                 {
@@ -420,9 +405,13 @@ namespace xomanufacture
                             File.Move(file, file + "sent");
                         }
                     }
+                    if (file.Contains("rundone"))
+                    {
+                        FileInfo fi = new FileInfo(file);
+                        if (fi.CreationTime < DateTime.Now.AddMonths(-1))
+                            fi.Delete();
+                    }
                 }
-
-            }
         }
 
         public bool bootup()
@@ -464,74 +453,17 @@ namespace xomanufacture
 
             if (File.Exists(nameb) || File.Exists(nameb + ".old"))
             {
-                if (File.Exists(namedone))
+                if (File.Exists(nameb))
                 {
-                    String[] templines = File.ReadAllLines(namedone);
-                    if (templines[templines.Count() - 1].Contains("MACPOOL") ||
-                        templines[templines.Count() - 2].Contains("MACPOOL") ||
-                        templines[templines.Count() - 3].Contains("MACPOOL") 
-                        )
-                    {
-                        File.Delete(nameb);
-                        File.Delete(nameb + ".old");
-                        int index = 0;
-                        while (File.Exists(namedone + index.ToString()))
-                        {
-                            index++;
-                        }
-                        File.Delete(namedone + index.ToString());
-                        File.Move(namedone, namedone + index.ToString());
-                        UploadLog();
-                        //set reply true
-                        //we are going to start new session.
-                    }
-                    else
-                    {
-                        reply = true;
-                        //this is a genuine crash. load this nameb or nameb.old
-                        if (!File.Exists(nameb))
-                        {
-                            File.Copy(nameb + ".old", nameb, true);
-                        }
-                        File.Delete(nameb + ".old");
-                        //load the nameb file into exonetstacck
-                        //that will automatically load the macpoollist
-            		    reply = LoadConFile();
-                        LoadFromFile(nameb);
-                        return reply;
-                    }
-                }
-                else if (File.Exists(namedated))   //sufficient resolution in date, this is no longer possible
-                {
-                    String[] templines = File.ReadAllLines(namedated);
-                    if (templines[templines.Count() - 1].Contains("MACPOOL") ||
-                        templines[templines.Count() - 2].Contains("MACPOOL") ||
-                        templines[templines.Count() - 3].Contains("MACPOOL")
-                        )
-                    {
-                        File.Delete(nameb);
-                        File.Delete(nameb + ".old");
-                        int index = 0;
-                        while (File.Exists(namedated + index.ToString()))
-                        {
-                            index++;
-                        }
-                        File.Delete(namedated + index.ToString());
-                        File.Move(namedated, namedated + index.ToString());
-                        UploadLog();
-                        //set reply true
-                        //we are going to start new session.
-                    }
-                    else
-                    {
-                        //this cant be. dated file is one with endmarker
-                    }
+                    File.Delete(nameb + ".old");
                 }
                 else
                 {
-                    //TODO: see if this is err condition. A very early crash?
-                    //maybe just load it?        Actually for now do nothing!
+                    File.Move(nameb + ".old", nameb);
                 }
+                LoadFromFile(nameb);
+                UploadLog();
+
             }
             reply = true;
             // if no issues create a new rundone.txt
@@ -901,7 +833,7 @@ namespace xomanufacture
             BarcodeData = "";
         }
 
-        public ExoNetUT(String FromString)
+        public ExoNetUT(String FromString) : this()
         {
             //Format: '|' delimited Name#value
             // convert a single line string to an entire single instance 
@@ -922,7 +854,7 @@ namespace xomanufacture
                                     "ReadyPending#",
                                     "ShinePending#"
                                   };
-            var StringPieces = FromString.Split(DelimArray, 13, StringSplitOptions.RemoveEmptyEntries);
+            var StringPieces = FromString.Split(DelimArray, 15, StringSplitOptions.RemoveEmptyEntries);
             Alive = Boolean.Parse(StringPieces[0].Trim('|'));
             DynamicMac = StringPieces[1].Trim('|');
             EtherMac1 = StringPieces[2].Trim('|');
@@ -1081,7 +1013,7 @@ namespace xomanufacture
         }
 
         // add tostring and fromstring
-        public StatusBar(String FileLine)
+        public StatusBar(String FileLine) : this()
         {
             //format: 'Start#00:11:22:33:44:55|End#00:11:22:33:44:55|Next#00:11:22:33:44:55'
             FileLine = FileLine.Trim();
@@ -1089,8 +1021,8 @@ namespace xomanufacture
             var StringPieces = FileLine.Split(DelimArray, 4,  StringSplitOptions.RemoveEmptyEntries);
             DayRunCount = Int32.Parse(StringPieces[0].Trim('|'));
             _DaySerial = Int16.Parse(StringPieces[1].Trim('|'));
-            CurrentlyConnected = Int16.Parse(StringPieces[1].Trim('|'));
-            CurrentlyReady = Int16.Parse(StringPieces[1].Trim('|'));
+            CurrentlyConnected = Int16.Parse(StringPieces[2].Trim('|'));
+            CurrentlyReady = Int16.Parse(StringPieces[3].Trim('|'));
 
         }
 
