@@ -166,6 +166,7 @@ namespace xomanufacture
         {
             var btn = sender as Button;
             NextButton.IsEnabled = false;
+            WorkBox.Text = "====== Finding Next Ready Board ====== ";
             btn.Command.Execute(btn.CommandParameter);
         }
     }

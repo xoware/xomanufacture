@@ -745,6 +745,11 @@ namespace xomanufacture
             return TheModel.ExoNetStack[UnitIndex].ReadyPending;
         }
 
+        public String ReturnLinkLocalIP(int UnitIndex)
+        {
+            return TheModel.ExoNetStack[UnitIndex].LinkLocalIP;
+        }
+
         public String ReturnBarCode(int UnitIndex)
         {
             return TheModel.ExoNetStack[UnitIndex].BarcodeData;

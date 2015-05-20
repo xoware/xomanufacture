@@ -19,7 +19,7 @@
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="7" />
+                    <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="9" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Height="35" Background="#FFEEFFFF" Header="EXONET" Opacity="0.3">
@@ -27,7 +27,7 @@
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="7" />
+                    <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="9" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Height="35" Background="#FFEEFFFF" Header="EXONET" Opacity="0.3">
@@ -35,7 +35,7 @@
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="7" />
+                    <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="9" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Height="35" Background="#FFEEFFFF" Header="EXONET" Opacity="0.3">
@@ -43,7 +43,7 @@
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="7" />
+                    <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="9" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Height="35" Background="#FFEEFFFF" Header="EXONET" Opacity="0.3">
@@ -51,7 +51,7 @@
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="7" />
+                    <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="9" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Height="35" Background="#FFEEFFFF" Header="EXONET" Opacity="0.3">
@@ -59,7 +59,7 @@
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="7" />
+                    <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="9" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Height="35" Background="#FFEEFFFF" Header="EXONET" Opacity="0.3">
@@ -67,7 +67,7 @@
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="7" />
+                    <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="9" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Height="35" Background="#FFEEFFFF" Header="EXONET" Opacity="0.3">
@@ -75,7 +75,7 @@
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="7" />
+                    <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="9" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Height="35" Background="#FFEEFFFF" Header="EXONET" Opacity="0.3">
@@ -83,7 +83,7 @@
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="7" />
+                    <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="9" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Height="35" Background="#FFEEFFFF" Header="EXONET" Opacity="0.3">
@@ -91,7 +91,7 @@
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="7" />
+                    <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="9" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Height="35" Background="#FFEEFFFF" Header="EXONET" Opacity="0.3">
@@ -99,7 +99,7 @@
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="7" />
+                    <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="9" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Height="35" Background="#FFEEFFFF" Header="EXONET" Opacity="0.3">
@@ -107,7 +107,7 @@
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="7" />
+                    <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="9" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Height="35" Background="#FFEEFFFF" Header="EXONET" Opacity="0.3">
@@ -115,7 +115,7 @@
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="7" />
+                    <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="9" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Height="35" Background="#FFEEFFFF" Header="EXONET" Opacity="0.3">
@@ -123,7 +123,7 @@
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="7" />
+                    <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="9" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Height="35" Background="#FFEEFFFF" Header="EXONET" Opacity="0.3">
@@ -131,7 +131,7 @@
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="7" />
+                    <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="9" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Height="35" Background="#FFEEFFFF" Header="EXONET" Opacity="0.3">
@@ -139,7 +139,7 @@
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
                     <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="7" />
+                    <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="9" />
                 </StackPanel>
             </GroupBox>
 

@@ -461,7 +461,18 @@ namespace xomanufacture
                 {
                     File.Move(nameb + ".old", nameb);
                 }
-                LoadFromFile(nameb);
+                // CAUTION: LoadFromFile is used to recover from a station/software crash-restart
+                // the inflight is basically reloaded to memory and it is assumed that the 
+                // configuration of connected exonets is not changed in any way shape or form.
+                // since this is too much of a pain right now so we will comment it out from here
+                //                LoadFromFile(nameb);
+                // and use this functionality to build a manuf version of software for debugging
+                // engineer at the AFG to try to recover failed boards
+                // by supplying best workable-guessed inflight to the software as it will get loaded 
+                // and might help those boards get debugged or through the manuf run.
+                // also could download the board information from the rundones sent to us already
+                // and feed it to manuf soft via this path to be able to print their label if they 
+                // are otherwise sound to pass manufacturing-test.
                 UploadLog();
 
             }

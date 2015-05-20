@@ -66,10 +66,6 @@ namespace xomanufacture
                TheController.ReCycle(TopIndex);
                TopIndex = -1;
            }
-           StatusLabelCombo LabelStatus = new StatusLabelCombo();
-           LabelStatus.LabelBox = "====== Finding Next Ready Board ====== ";
-           LabelStatus.Status = "";
-           UpdateUI(LabelStatus);
        }
        private String NextOReset()
        {
@@ -100,10 +96,9 @@ namespace xomanufacture
            // after scanning
            // Update the barcode in the ExoNetUT object
            TheController.SaveBarCodeValue(TopIndex, ScanValue);
-           // UIUPDATE will happen automaticcally.
-           //but could call it here aswell
+           //Update the UI: Necessary to do this here.
            StatusLabelCombo LabelStatus = new StatusLabelCombo();
-           LabelStatus.LabelBox += Environment.NewLine;
+           LabelStatus.LabelBox = "";
            LabelStatus.Status = "";
            UpdateUI(LabelStatus);
 
@@ -165,7 +160,8 @@ namespace xomanufacture
                        ReflectUIStack[i].Light1 = Brushes.Red;
                        ReflectUIStack[i].Light2 = Brushes.Gray;
                        ReflectUIStack[i].Light3 = Brushes.Gray;
-                       ReflectUIStack[i].Status = "Connected";
+                       ReflectUIStack[i].Status = "Connected: ";
+                       ReflectUIStack[i].Status += TheController.ReturnLinkLocalIP(i);
                    }
                    else
                    {
