@@ -429,6 +429,20 @@ namespace xomanufacture
             {
                 //we  test if the srcmac falls out of the coded mac range in nor.img and
                 //and srcip  is within known range and proceed with the following addition.
+
+                if (SrcIp.Contains("169.254.254") )
+                {
+                    if (SrcMac.Contains("AA:BB:"))
+                    {
+                        ExoNetUT NewUT = TheModel.ExoNetStack[TheModel.NewSlot()];
+                        NewUT.DynamicMac = SrcMac;
+                        NewUT.LinkLocalIP = SrcIp;
+                    }
+                }
+                /* // although this is more general code, we will replace it with more specific
+                   //  previous block because we are not caring for saving state across 
+                   //  station crash-restart via inflight And we dont want ghost connected 
+                   //  en if one is left connected after it is done.
                 if (SrcIp.Contains("169.254.254") || SrcIp.Contains("192.168.137"))
                 {
                     ExoNetUT NewUT = TheModel.ExoNetStack[TheModel.NewSlot()];
@@ -443,6 +457,7 @@ namespace xomanufacture
                         NewUT.DynamicIP = SrcIp;
                     }
                 }
+                */
             }
         }
         private static void Intf2Handler(Packet packet)

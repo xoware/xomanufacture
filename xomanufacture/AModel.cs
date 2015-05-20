@@ -322,9 +322,11 @@ namespace xomanufacture
 
         private bool RunPscp(String PArgs)
         {
-            String ProcName = PathName + @"\pscp.exe";
-            String ProcArgs = @" -pw Designed&AssembledInCalifornia2229 " +
-                               @" -hostkey  be:78:c7:80:b2:e2:30:4d:79:0b:2f:a3:72:2c:45:bf -scp " + PArgs;
+            String ProcName = @"""" + PathName + @"\pscp.exe""";
+            String ProcArgs = @" -pw ""Designed&AssembledInCalifornia2229"" " +
+                               @" -hostkey  ""be:78:c7:80:b2:e2:30:4d:79:0b:2f:a3:72:2c:45:bf"" -scp " + PArgs;
+
+            //File.AppendAllText(PathName + @"\test", ProcName + Environment.NewLine + ProcArgs);
             Process uproc = new Process();
             uproc.StartInfo.FileName = ProcName;
             uproc.StartInfo.Arguments = ProcArgs;
@@ -359,8 +361,18 @@ namespace xomanufacture
             String coname = PathName + @"\xomanuf.conf";
 	        bool upSuccess;
 
-            if (File.Exists(nameb))
+            if (File.Exists(nameb) || File.Exists(nameb + ".old"))
             {
+
+                if (File.Exists(nameb))
+                {
+                    File.Delete(nameb + ".old");
+                }
+                else
+                {
+                    File.Move(nameb + ".old", nameb);
+                }
+
                 if (File.Exists(namedone))
                 {
                     String[] templinearray = File.ReadAllLines(coname);
@@ -379,8 +391,8 @@ namespace xomanufacture
                     File.Delete(nameb + ".old");
                     File.Delete(namedated);
 
-                    String ProcArgs = ZipName + @" xomanuf@ns2.vpex.org:/incoming/" + StationName +
-                                         @"_rundone_" + TodaysDate + @".zip ";
+                    String ProcArgs = @"""" + ZipName + @"""" + @" ""xomanuf@ns2.vpex.org:/incoming/" + StationName +
+                                         @"_rundone_" + TodaysDate + @".zip"" ";
                     upSuccess = RunPscp(ProcArgs);
                     if (upSuccess)
                     {
@@ -395,8 +407,8 @@ namespace xomanufacture
                 {
                     if (file.Contains("rundone") && !file.Contains("sent"))
                     {
-                        String ProcArgs = file + @" xomanuf@ns2.vpex.org:/incoming/" + StationName +
-                                         @"_" + Path.GetFileName(file); 
+                        String ProcArgs = @"""" + file + @"""" + @" ""xomanuf@ns2.vpex.org:/incoming/" + StationName +
+                                         @"_" + Path.GetFileName(file) + @""""; 
 			            upSuccess = RunPscp(ProcArgs);
 
                         if (upSuccess)
@@ -465,7 +477,14 @@ namespace xomanufacture
                 // the inflight is basically reloaded to memory and it is assumed that the 
                 // configuration of connected exonets is not changed in any way shape or form.
                 // since this is too much of a pain right now so we will comment it out from here
-                //                LoadFromFile(nameb);
+                if (false)
+                {
+                    LoadFromFile(nameb);
+                }
+                else
+                {
+                    File.Delete(nameb);
+                }
                 // and use this functionality to build a manuf version of software for debugging
                 // engineer at the AFG to try to recover failed boards
                 // by supplying best workable-guessed inflight to the software as it will get loaded 
@@ -473,9 +492,8 @@ namespace xomanufacture
                 // also could download the board information from the rundones sent to us already
                 // and feed it to manuf soft via this path to be able to print their label if they 
                 // are otherwise sound to pass manufacturing-test.
-                UploadLog();
-
             }
+            UploadLog();
             reply = true;
             // if no issues create a new rundone.txt
             // init it by copying the xomanuf.conf to it
