@@ -10,135 +10,135 @@
     <Grid>
         <Button Name="PauseButton" Content="Reprint Label" Command="{Binding PauseCommand}" HorizontalAlignment="Left" Margin="35,300,0,0" VerticalAlignment="Top" Width="75" Visibility="Hidden" IsEnabled="False"/>
         <Button Name="EndButton" Content="End of Shift" CommandParameter="Exit" Command="{Binding ChangePageCommand}" HorizontalAlignment="Left" Margin="35,350,0,0" VerticalAlignment="Top" Width="75" Visibility="Hidden" IsEnabled="False"/>
-        <StackPanel Name="DUTViewStack" HorizontalAlignment="Left" Margin="150,75,0,0" Width="175" Background="#FFFFFFEE"  >
+        <StackPanel Name="DUTViewStack" HorizontalAlignment="Left" Margin="50,75,0,0" Width="250" Height="600" Background="#FFFFFFEE"  >
 
             
             
             <GroupBox Height="35" Background="#FFEEFFFF" Header="EXONET" Opacity="0.3">
                 <StackPanel Name="ENUT00" Orientation="Horizontal"  VerticalAlignment="Bottom" >
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
                     <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="9" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Height="35" Background="#FFEEFFFF" Header="EXONET" Opacity="0.3">
                 <StackPanel Name="ENUT01" Orientation="Horizontal"  VerticalAlignment="Bottom" >
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
                     <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="9" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Height="35" Background="#FFEEFFFF" Header="EXONET" Opacity="0.3">
                 <StackPanel Name="ENUT02" Orientation="Horizontal"  VerticalAlignment="Bottom" >
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
                     <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="9" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Height="35" Background="#FFEEFFFF" Header="EXONET" Opacity="0.3">
                 <StackPanel Name="ENUT03" Orientation="Horizontal"  VerticalAlignment="Bottom" >
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
                     <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="9" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Height="35" Background="#FFEEFFFF" Header="EXONET" Opacity="0.3">
                 <StackPanel Name="ENUT04" Orientation="Horizontal"  VerticalAlignment="Bottom" >
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
                     <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="9" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Height="35" Background="#FFEEFFFF" Header="EXONET" Opacity="0.3">
                 <StackPanel Name="ENUT05" Orientation="Horizontal"  VerticalAlignment="Bottom" >
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
                     <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="9" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Height="35" Background="#FFEEFFFF" Header="EXONET" Opacity="0.3">
                 <StackPanel Name="ENUT06" Orientation="Horizontal"  VerticalAlignment="Bottom" >
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
                     <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="9" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Height="35" Background="#FFEEFFFF" Header="EXONET" Opacity="0.3">
                 <StackPanel Name="ENUT07" Orientation="Horizontal"  VerticalAlignment="Bottom" >
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
                     <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="9" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Height="35" Background="#FFEEFFFF" Header="EXONET" Opacity="0.3">
                 <StackPanel Name="ENUT08" Orientation="Horizontal"  VerticalAlignment="Bottom" >
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
                     <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="9" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Height="35" Background="#FFEEFFFF" Header="EXONET" Opacity="0.3">
                 <StackPanel Name="ENUT09" Orientation="Horizontal"  VerticalAlignment="Bottom" >
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
                     <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="9" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Height="35" Background="#FFEEFFFF" Header="EXONET" Opacity="0.3">
                 <StackPanel Name="ENUT10" Orientation="Horizontal"  VerticalAlignment="Bottom" >
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
                     <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="9" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Height="35" Background="#FFEEFFFF" Header="EXONET" Opacity="0.3">
                 <StackPanel Name="ENUT11" Orientation="Horizontal"  VerticalAlignment="Bottom" >
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
                     <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="9" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Height="35" Background="#FFEEFFFF" Header="EXONET" Opacity="0.3">
                 <StackPanel Name="ENUT12" Orientation="Horizontal"  VerticalAlignment="Bottom" >
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
                     <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="9" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Height="35" Background="#FFEEFFFF" Header="EXONET" Opacity="0.3">
                 <StackPanel Name="ENUT13" Orientation="Horizontal"  VerticalAlignment="Bottom" >
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
                     <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="9" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Height="35" Background="#FFEEFFFF" Header="EXONET" Opacity="0.3">
                 <StackPanel Name="ENUT14" Orientation="Horizontal"  VerticalAlignment="Bottom" >
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
                     <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="9" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Height="35" Background="#FFEEFFFF" Header="EXONET" Opacity="0.3">
                 <StackPanel Name="ENUT15" Orientation="Horizontal"  VerticalAlignment="Bottom" >
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
-                    <Ellipse Height="5" Width="5" Fill="Red" Margin="3,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
+                    <Ellipse Height="7" Width="7" Fill="Red" Margin="5,0" />
                     <TextBlock Text="Current Status " Margin="50,0,0,0" FontSize="9" />
                 </StackPanel>
             </GroupBox>
