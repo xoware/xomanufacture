@@ -10,7 +10,7 @@
     <Grid>
         <Button Name="PauseButton" Content="Reprint Label" Command="{Binding PauseCommand}" HorizontalAlignment="Left" Margin="35,300,0,0" VerticalAlignment="Top" Width="75" Visibility="Hidden" IsEnabled="False"/>
         <Button Name="EndButton" Content="End of Shift" CommandParameter="Exit" Command="{Binding ChangePageCommand}" HorizontalAlignment="Left" Margin="35,350,0,0" VerticalAlignment="Top" Width="75" Visibility="Hidden" IsEnabled="False"/>
-        <StackPanel Name="DUTViewStack" HorizontalAlignment="Left" Margin="50,75,0,0" Width="250" Height="600" Background="#FFFFFFEE"  >
+        <StackPanel Name="DUTViewStack" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,75,0,0" Width="250" Height="600" Background="#FFFFFFEE"  >
 
             
             
