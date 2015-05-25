@@ -364,7 +364,7 @@ namespace xomanufacture
         {
             String ProcName = @"C:\Windows\System32\netsh.exe";
             String ProcArgs = @" interface ip add address """ +
-                 NicName + @""" 169.254.254.254 255.255.255.0" ;
+                 NicName + @""" 169.254.254.254 255.255.0.0" ;
             Process uproc = new Process();
             uproc.StartInfo.FileName = ProcName;
             uproc.StartInfo.Arguments = ProcArgs;
@@ -417,10 +417,16 @@ namespace xomanufacture
                 {
                     if (myut.DynamicMac == SrcMac || myut.EtherMac1 == SrcMac)
                     {
-                        if (SrcIp.Contains("169.254.254"))
+                        if (SrcIp.Contains("169.254"))
+                        {
                             myut.LinkLocalIP = SrcIp;
+                            myut.DynamicIP = SrcIp;
+                        }
+                        /* // this will no longer happen since we are not going to be using the windows dhcp
+                           //  but just the link-local ip so now additionally we set DynamicIP == LinkLocalIP
                         if (SrcIp.Contains("192.168.137"))
                             myut.DynamicIP = SrcIp;
+                        */
                         foundit = true;
                     }
                 }
@@ -430,7 +436,7 @@ namespace xomanufacture
                 //we  test if the srcmac falls out of the coded mac range in nor.img and
                 //and srcip  is within known range and proceed with the following addition.
 
-                if (SrcIp.Contains("169.254.254") )
+                if (SrcIp.Contains("169.254") )
                 {
                     if (SrcMac.Contains("AA:BB:"))
                     {
