@@ -137,8 +137,17 @@ namespace xomanufacture
             while (CtrlThreadEnable)
             {
                 Ping Pong = new Ping();
-                int timeout = 1;
-                PingReply reply = Pong.Send("192.168.2.1", timeout);
+                int timeout = 100;
+                foreach (ExoNetUT IterUT in TheModel.ExoNetStack)
+                {
+                    if (IterUT.Alive == true)
+                    {
+                        if (IterUT.DynamicIP != "")
+                        {
+                            PingReply reply = Pong.Send(IterUT.DynamicIP.Replace("169.254", "192.168"), timeout);
+                        }
+                    }
+                }
                 System.Threading.Thread.Sleep(2000);
                 TheModel.SaveInFlight();
                 //call to update the view.
@@ -385,7 +394,7 @@ namespace xomanufacture
         {
             String ProcName = @"C:\Windows\System32\netsh.exe";
             String ProcArgs = @" interface ip set address """ +
-                 NicName + @""" static 192.168.2.254 255.255.255.0";
+                 NicName + @""" static 192.168.254.254 255.255.0.0";
             Process uproc = new Process();
             uproc.StartInfo.FileName = ProcName;
             uproc.StartInfo.Arguments = ProcArgs;
@@ -495,7 +504,7 @@ namespace xomanufacture
             // macs and ips associated with them
             // ping responses only from 2nd interface and the mac it came from.
             String Intf1BPF = "udp and (dst 169.254.254.254 or dst 192.168.137.1) and (dst port 69 or dst port 36969)";
-            String Intf2BPF = "icmp and src 192.168.2.1 and dst 192.168.2.254";
+            String Intf2BPF = "icmp and dst 192.168.254.254";
             //libpcap object device.name is contains our adapter1 guid.
             libpcapObj FirIntfProc = new libpcapObj(AModel.Adapter1, Intf1Handler, Intf1BPF);
             libpcapObj SecIntfProc = new libpcapObj(AModel.Adapter2, Intf2Handler, Intf2BPF);

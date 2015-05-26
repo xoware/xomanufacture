@@ -204,7 +204,7 @@ namespace xomanufacture
                            LabelBx += Environment.NewLine;
                            LabelBx += Environment.NewLine;
 
-                           LabelBx += "------> IDENTIFY THE CONTINUOUSLY *BLINKING* BOARD <------";
+                           LabelBx += "------> IDENTIFY THE CONTINUOUSLY BLINKING BOARD <------";
                            LabelBx += Environment.NewLine;
                            LabelBx += "------> CLICK [START SCAN] TO CONTINUE <------";
                            LabelBx += Environment.NewLine;
