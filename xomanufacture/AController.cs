@@ -144,7 +144,7 @@ namespace xomanufacture
                     {
                         if (IterUT.DynamicIP != "")
                         {
-                            PingReply reply = Pong.Send(IterUT.DynamicIP.Replace("169.254", "192.168"), timeout);
+                            PingReply reply = Pong.Send(IterUT.DynamicIP.Replace("169.254", "172.20"), timeout);
                         }
                     }
                 }
@@ -394,7 +394,7 @@ namespace xomanufacture
         {
             String ProcName = @"C:\Windows\System32\netsh.exe";
             String ProcArgs = @" interface ip set address """ +
-                 NicName + @""" static 192.168.254.254 255.255.0.0";
+                 NicName + @""" static 172.20.254.254 255.255.0.0";
             Process uproc = new Process();
             uproc.StartInfo.FileName = ProcName;
             uproc.StartInfo.Arguments = ProcArgs;
@@ -504,7 +504,7 @@ namespace xomanufacture
             // macs and ips associated with them
             // ping responses only from 2nd interface and the mac it came from.
             String Intf1BPF = "udp and (dst 169.254.254.254 or dst 192.168.137.1) and (dst port 69 or dst port 36969)";
-            String Intf2BPF = "icmp and dst 192.168.254.254";
+            String Intf2BPF = "icmp and dst 172.20.254.254";
             //libpcap object device.name is contains our adapter1 guid.
             libpcapObj FirIntfProc = new libpcapObj(AModel.Adapter1, Intf1Handler, Intf1BPF);
             libpcapObj SecIntfProc = new libpcapObj(AModel.Adapter2, Intf2Handler, Intf2BPF);
