@@ -77,7 +77,7 @@ namespace xomanufacture
 
            LabelBx = Environment.NewLine;
            LabelBx += Environment.NewLine;
-           LabelBx += "====== Preparing New Available ExoNet DUT ======";
+           LabelBx += "====== Preparing New Available XoNet DUT ======";
            LabelBx += Environment.NewLine;
            LabelBx += "------> Please wait several seconds... <------";
            LabelBx += Environment.NewLine;
@@ -195,7 +195,7 @@ namespace xomanufacture
 
                        if (TheController.ReturnBlinkingStatus(TopIndex) && !ScanEnabled)
                        {
-                           LabelBx += "====== New ExoNet DUT *BLINKING* *BLINKING* ======";
+                           LabelBx += "====== New XoNet DUT *BLINKING* *BLINKING* ======";
                            UIScanEnable();
                            // enable the scan button.
                            LabelBx += Environment.NewLine;

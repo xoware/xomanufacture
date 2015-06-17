@@ -1327,14 +1327,14 @@ namespace xomanufacture
             using (LabelContext = visual.RenderOpen())
             {
 
-                TypeSetLine("x.o.ware, inc.   ExoNet", "Tahoma", 14, 30, 10);
+                TypeSetLine("x.o.ware, inc.   XoNet", "Tahoma", 14, 30, 10);
                 TypeSetLine("TM", "Tahoma", 6, 170, 10);
                 TypeSetLine("101-5-1.0", "Tahoma", 6, 90, 25);
                 TypeSetLine("Designed & Assembled in California", "Tahoma", 11, 20, 40);
                 TypeSetLine("Default Username: admin", "Tahoma", 8, 20, 60);
                 TypeSetLine("Default Password: 123456", "Tahoma", 8, 20, 70);
                 TypeSetLine("Default IP Address on eth2: 192.168.2.1", "Tahoma", 8, 20, 80);
-                TypeSetLine("Default URL on eth1: http://exonet.local", "Tahoma", 8, 20, 90);
+                TypeSetLine("Default URL on eth1: http://xonet.local", "Tahoma", 8, 20, 90);
                 //typeset barcode
                 TypeSetLine("MAC ADR: " + mac_addr, "Consolas", 9, 20, 140);
                 //typeset barcode
